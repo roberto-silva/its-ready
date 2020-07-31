@@ -1,4 +1,4 @@
-package com.example.taPronto.model;
+package com.roberto.taPronto.model;
 
 import java.io.Serializable;
 
@@ -18,7 +18,7 @@ public class User implements Serializable{
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(name="nome")
+	@Column(name="name")
 	private String name;
 	
 	@Column(name="cpf")

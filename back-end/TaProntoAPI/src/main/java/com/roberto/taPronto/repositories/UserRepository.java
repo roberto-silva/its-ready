@@ -1,9 +1,9 @@
-package com.example.taPronto.repositories;
+package com.roberto.taPronto.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.taPronto.model.User;
+import com.roberto.taPronto.model.User;
 
 
 
