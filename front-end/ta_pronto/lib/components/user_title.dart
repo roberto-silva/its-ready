@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ta_pronto/models/user.dart';
+import 'package:ta_pronto/provider/users_provider.dart';
 import 'package:ta_pronto/routes/app_routes.dart';
 
 class UserTitle extends StatelessWidget {
@@ -16,7 +18,7 @@ class UserTitle extends StatelessWidget {
         color: Colors.white,
         onPressed: () {},
       )),
-      title: Text(user.id + ' ' + user.name + ' ' + user.role),
+      title: Text(user.name),
       subtitle: Text(user.phone),
       trailing: Container(
         width: 100,
@@ -35,7 +37,32 @@ class UserTitle extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.delete),
               color: Colors.red,
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Excluir Usuário'),
+                    content: Text('Tem certeza ?'),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                        child: Text('Não'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: Text('Sim'),
+                      ),
+                    ],
+                  ),
+                ).then((confirmed) => (confirmed)
+                    ? Provider.of<UsersProvider>(context, listen: false)
+                        .remove(user)
+                    : null);
+              },
             )
           ],
         ),
