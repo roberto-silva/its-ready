@@ -1,81 +1,40 @@
 package com.roberto.taPronto.dto;
 
-import java.io.Serializable;
-
 import com.roberto.taPronto.model.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class UserDTO implements Serializable {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-	private static final long serialVersionUID = 1L;
-
-	private int id;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDTO {
+	private Integer id;
+	@NotEmpty
 	private String name;
-
+	@NotEmpty
 	private String cpf;
-
+	@NotEmpty
 	private String role;
-
+	@NotEmpty
 	private String phone;
+	@NotEmpty
+	private String email;
+	@NotNull
+	private AddressDTO address;
 
-	public UserDTO() {
-		super();
-	}
-
-	public UserDTO(int id, String name, String cpf, String role, String phone) {
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.role = role;
-		this.phone = phone;
-	}
-
-	public UserDTO(User user) {
+	public UserDTO(User user){
 		this.id = user.getId();
 		this.name = user.getName();
 		this.cpf = user.getCpf();
 		this.role = user.getRole();
 		this.phone = user.getPhone();
+		this.email = user.getEmail();
+		this.address = new AddressDTO(user.getAddress());
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
 
 }

@@ -1,22 +1,29 @@
 package com.roberto.taPronto.model;
 
+import com.roberto.taPronto.dto.AddressDTO;
+import com.roberto.taPronto.dto.UserDTO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 @Entity
-@Table(name="users")
-public class User implements Serializable{
+@Table(name="user_account",uniqueConstraints = {
+		@UniqueConstraint(columnNames={"cpf"})
+})
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	private Integer id;
 	
 	@Column(name="name")
 	private String name;
@@ -29,82 +36,21 @@ public class User implements Serializable{
 	
 	@Column(name="phone")
 	private String phone;
-	
-	
-	public User() {
-		super();
-	}
-		
-	public User(int id, String name, String cpf, String role, String phone) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.role = role;
-		this.phone = phone;
-	}
 
-	public int getId() {
-		return id;
-	}
+	@Column(name="email")
+	private String email;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	private Address address;
 
-	public String getName() {
-		return name;
+	public User(UserDTO objDto) {
+		this.id = objDto.getId();
+		this.name = objDto.getName();
+		this.cpf = objDto.getCpf();
+		this.role = objDto.getRole();
+		this.phone = objDto.getPhone();
+		this.email = objDto.getEmail();
+		this.address = new Address(objDto.getAddress());
 	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
-	
-	
-
 }
