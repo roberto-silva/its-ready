@@ -1,5 +1,5 @@
 # TaPronto
-Aplicativo feito com Spring Boot e Flutter para gerenciar serviços.
+Aplicativo feito com Spring Boot e React Native para gerenciar serviços.
   * Principais funcionalidades:
     * Gerenciar pedidos, orçamento e serviços realizados
     * Cadastrar clientes e usuários do sistema (funcionários)
