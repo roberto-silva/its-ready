@@ -1,6 +1,5 @@
 package com.roberto.taPronto.model;
 
-import com.roberto.taPronto.dto.AddressDTO;
 import com.roberto.taPronto.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
