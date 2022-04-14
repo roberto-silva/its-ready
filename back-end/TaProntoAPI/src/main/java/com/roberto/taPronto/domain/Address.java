@@ -1,7 +1,6 @@
-package com.roberto.taPronto.model;
+package com.roberto.taPronto.domain;
 
 import com.roberto.taPronto.dto.AddressDTO;
-import com.roberto.taPronto.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

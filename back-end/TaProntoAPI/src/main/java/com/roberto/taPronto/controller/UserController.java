@@ -1,10 +1,10 @@
 package com.roberto.taPronto.controller;
 
 import com.roberto.taPronto.dto.UserDTO;
-import com.roberto.taPronto.model.User;
+import com.roberto.taPronto.domain.User;
 import com.roberto.taPronto.service.UserService;
 import javassist.tools.rmi.ObjectNotFoundException;
-import org.modelmapper.ModelMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +17,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(value="/users")
 public class UserController {
 
-	@Autowired
 	private UserService service;
 
-
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
 		List<User> list = this.service.findAll();
 		List<UserDTO> listDTO = list.stream().map(UserDTO:: new).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	@GetMapping(value = "/page")
 	public ResponseEntity<Page<UserDTO>> findPaged(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
@@ -42,7 +40,7 @@ public class UserController {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<User> find(@PathVariable Integer id) throws ObjectNotFoundException {
 		User obj = this.service.findById(id);
 		return ResponseEntity.ok().body(obj);
@@ -63,7 +61,7 @@ public class UserController {
 		return ResponseEntity.ok().body(new UserDTO(user));
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@PathVariable Integer id) throws ObjectNotFoundException {
 		this.service.delete(id);
 		return ResponseEntity.noContent().build();

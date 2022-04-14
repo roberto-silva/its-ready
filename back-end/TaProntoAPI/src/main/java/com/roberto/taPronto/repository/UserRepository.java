@@ -3,7 +3,7 @@ package com.roberto.taPronto.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.roberto.taPronto.model.User;
+import com.roberto.taPronto.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
