@@ -1,21 +1,28 @@
 package com.roberto.taPronto.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.roberto.taPronto.domain.enums.Profile;
 import com.roberto.taPronto.dto.UserDTO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
 @Table(name="user_account",uniqueConstraints = {
-		@UniqueConstraint(columnNames={"cpf"})
+		@UniqueConstraint(columnNames={"cpf", "email"})
 })
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,13 +33,10 @@ public class User implements Serializable {
 	
 	@Column(name="name")
 	private String name;
-	
+
 	@Column(name="cpf")
 	private String cpf;
-	
-	@Column(name="role")
-	private String role;
-	
+
 	@Column(name="phone")
 	private String phone;
 
@@ -43,13 +47,35 @@ public class User implements Serializable {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 
-	public User(UserDTO objDto) {
-		this.id = objDto.getId();
-		this.name = objDto.getName();
-		this.cpf = objDto.getCpf();
-		this.role = objDto.getRole();
-		this.phone = objDto.getPhone();
-		this.email = objDto.getEmail();
-		this.address = new Address(objDto.getAddress());
+	@Column(name="password")
+	@JsonIgnore
+	private String password;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "profiles")
+	private Set<Integer> profile = new HashSet<>();
+
+	@Column(name="activated")
+	private boolean activated;
+
+	public Set<Profile> getProfiles(){
+		return profile.stream().map(Profile::toEnum).collect(Collectors.toSet());
+	}
+
+	public void addProfile(Profile profile) {
+		this.profile.add(profile.getCod());
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+		User user = (User) o;
+		return id != null && Objects.equals(id, user.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
 	}
 }

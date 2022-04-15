@@ -55,9 +55,7 @@ public class UserController {
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> update(@RequestBody @Valid UserDTO objDto, @PathVariable Integer id) throws ObjectNotFoundException {
-		User user = new User(objDto);
-
-		user = this.service.update(user, id);
+		var user = this.service.update(objDto, id);
 		return ResponseEntity.ok().body(new UserDTO(user));
 	}
 
