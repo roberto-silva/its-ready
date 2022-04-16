@@ -5,12 +5,14 @@ import com.roberto.taPronto.domain.User;
 import com.roberto.taPronto.domain.enums.Profile;
 import com.roberto.taPronto.dto.UserDTO;
 import com.roberto.taPronto.repository.UserRepository;
+import com.roberto.taPronto.security.UserSpringSecurity;
 import javassist.tools.rmi.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +66,15 @@ public class UserService {
     public void delete(Integer id) throws ObjectNotFoundException {
 
         this.repository.delete(this.findById(id));
+    }
+
+    public static UserSpringSecurity userLogged() {
+        try {
+            return (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 }
