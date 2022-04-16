@@ -68,7 +68,7 @@ public class UserService {
         this.repository.delete(this.findById(id));
     }
 
-    public static UserSpringSecurity userLogged() {
+    public static UserSpringSecurity getUserLogged() {
         try {
             return (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         } catch (Exception e) {
