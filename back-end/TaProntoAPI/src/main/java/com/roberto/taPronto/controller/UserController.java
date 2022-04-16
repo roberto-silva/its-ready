@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,6 +25,7 @@ public class UserController {
 	private UserService service;
 
 	@GetMapping
+	@Secured({"ROLE_ADMIN","ROLE_ATTENDANT"})
 	public ResponseEntity<List<UserDTO>> findAll() {
 		List<User> list = this.service.findAll();
 		List<UserDTO> listDTO = list.stream().map(UserDTO:: new).collect(Collectors.toList());
@@ -31,6 +33,7 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/page")
+	@Secured({"ROLE_ADMIN","ROLE_ATTENDANT"})
 	public ResponseEntity<Page<UserDTO>> findPaged(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
@@ -41,12 +44,14 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/{id}")
+	@Secured("ROLE_COSTUMER")
 	public ResponseEntity<User> find(@PathVariable Integer id) throws ObjectNotFoundException {
 		User obj = this.service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@PostMapping
+	@Secured("ROLE_ADMIN")
 	public ResponseEntity<Void> insert(@RequestBody @Valid  UserDTO objDto) {
 		User obj = service.create(objDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -54,12 +59,14 @@ public class UserController {
 	}
 
 	@PutMapping(value = "/{id}")
+	@Secured("ROLE_ADMIN")
 	public ResponseEntity<UserDTO> update(@RequestBody @Valid UserDTO objDto, @PathVariable Integer id) throws ObjectNotFoundException {
 		var user = this.service.update(objDto, id);
 		return ResponseEntity.ok().body(new UserDTO(user));
 	}
 
 	@DeleteMapping(value = "/{id}")
+	@Secured("ROLE_ADMIN")
 	public ResponseEntity<Void> update(@PathVariable Integer id) throws ObjectNotFoundException {
 		this.service.delete(id);
 		return ResponseEntity.noContent().build();
