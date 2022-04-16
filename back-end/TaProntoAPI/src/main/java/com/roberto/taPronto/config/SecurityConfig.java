@@ -1,6 +1,7 @@
 package com.roberto.taPronto.config;
 
 import com.roberto.taPronto.security.JWTAuthenticationFilter;
+import com.roberto.taPronto.security.JWTAuthorizationFilter;
 import com.roberto.taPronto.security.JWTUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
