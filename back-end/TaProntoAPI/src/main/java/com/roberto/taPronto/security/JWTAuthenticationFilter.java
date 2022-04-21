@@ -57,6 +57,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             e.printStackTrace();
         }
         res.addHeader("Authorization", "Bearer " + token);
+        res.addHeader("access-control-expose-headers", "Authorization");
     }
 
     private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {

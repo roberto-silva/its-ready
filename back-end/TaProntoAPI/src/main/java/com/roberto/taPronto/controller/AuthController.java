@@ -28,6 +28,7 @@ public class AuthController {
         if (Objects.nonNull(userSpringSecurity)) {
             String token = jwtUtil.generateToken(userSpringSecurity.getUsername());
             response.addHeader("Auhorization", "Bearer " + token);
+            response.addHeader("access-control-expose-headers", "Authorization");
         }
 
         return ResponseEntity.noContent().build();
