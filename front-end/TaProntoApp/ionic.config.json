@@ -1,0 +1,7 @@
+{
+  "name": "TaProntoApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
