@@ -1,3 +1,4 @@
 <ion-app>
-  <app-side-menu></app-side-menu>
+  <app-side-menu *ngIf="authenticated"></app-side-menu>
+  <ion-router-outlet *ngIf="!authenticated"></ion-router-outlet>
 </ion-app>
