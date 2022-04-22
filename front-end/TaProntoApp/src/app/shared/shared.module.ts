@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SideMenuComponent } from './side-menu/side-menu.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {SideMenuComponent} from './side-menu/side-menu.component';
 import {IonicModule} from "@ionic/angular";
 import {RouterModule} from "@angular/router";
-
 
 
 @NgModule({
@@ -19,4 +18,5 @@ import {RouterModule} from "@angular/router";
     RouterModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

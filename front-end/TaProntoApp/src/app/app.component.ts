@@ -7,7 +7,7 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
 
-  authenticated: boolean = false;
+  authenticated: boolean = true;
 
   constructor() {
   }

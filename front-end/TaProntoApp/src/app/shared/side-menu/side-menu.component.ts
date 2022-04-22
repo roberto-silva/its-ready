@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-side-menu',
@@ -8,11 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class SideMenuComponent implements OnInit {
 
   public appPages = [
-    { title: 'Services', url: '/services', icon: 'hammer' }
+    {title: 'Services', url: '/services', icon: 'hammer'}
   ];
   public labels = ['Settings', 'About'];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
