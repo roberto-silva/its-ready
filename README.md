@@ -1,6 +1,6 @@
-# TaPronto
-Aplicativo feito com Spring Boot e React Native para gerenciar serviços.
-  * Principais funcionalidades:
-    * Gerenciar pedidos, orçamento e serviços realizados
-    * Cadastrar clientes e usuários do sistema (funcionários)
-    * Informar ao cliente quando o serviço foi concluido
+# Its's Ready
+Application made with Spring Boot and Angular e Ionic to manage services.
+  * Main functionalities:
+    * Manage orders, budget and services performed
+    * Register customers and system users (employees)
+    * Inform the client when the service has been completed
