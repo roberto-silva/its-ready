@@ -20,9 +20,9 @@ public class DBService {
     }
 
     private void createUsersDefault(){
-        Set<UserDTO> dtoSet = new HashSet<>();
-        dtoSet.add(createUserAdmin());
-        dtoSet.forEach(userDTO -> {
+        Set<UserDTO> userDTOS = new HashSet<>();
+        userDTOS.add(createUserAdmin());
+        userDTOS.forEach(userDTO -> {
             if(!userService.existsByCPF(userDTO.getCpf())){
                 userService.create(userDTO);
             }
