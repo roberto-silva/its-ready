@@ -7,6 +7,7 @@ import javassist.tools.rmi.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,18 +36,15 @@ public class UserController {
 
 	@GetMapping(value = "/page")
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATTENDANT')")
-	public ResponseEntity<Page<UserDTO>> findPaged(@RequestParam(value = "page", defaultValue = "0") Integer page,
-			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-		Page<User> list = this.service.findPage(page, linesPerPage, orderBy, direction);
+	public ResponseEntity<Page<UserDTO>> findAllPaged(Pageable pageable) {
+		Page<User> list = this.service.findPage(pageable);
 		Page<UserDTO> listDTO = list.map(UserDTO:: new);
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('COSTUMER')")
-	public ResponseEntity<User> find(@PathVariable Integer id) throws ObjectNotFoundException {
+	public ResponseEntity<User> findById(@PathVariable Integer id) throws ObjectNotFoundException {
 		User obj = this.service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
@@ -68,7 +66,7 @@ public class UserController {
 
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<Void> update(@PathVariable Integer id) throws ObjectNotFoundException {
+	public ResponseEntity<Void> delete(@PathVariable Integer id) throws ObjectNotFoundException {
 		this.service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

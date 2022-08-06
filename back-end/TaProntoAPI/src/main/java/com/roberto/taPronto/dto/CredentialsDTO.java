@@ -10,6 +10,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CredentialsDTO implements Serializable {
+
     private String username;
+
     private String password;
 }

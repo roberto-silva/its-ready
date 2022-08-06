@@ -21,8 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static com.roberto.taPronto.config.SecurityConstants.PUBLIC_MATCHERS;
-import static com.roberto.taPronto.config.SecurityConstants.TEST;
+import static com.roberto.taPronto.config.SecurityConstants.*;
 
 @Configuration
 @AllArgsConstructor
@@ -39,6 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         if (Arrays.asList(environment.getActiveProfiles()).contains(TEST)) {
             http.headers().frameOptions().disable();
+            http.authorizeRequests()
+                    .antMatchers(PUBLIC_TEST_MATCHERS).permitAll()
+                    .anyRequest().authenticated();
         }
 
         http.cors().and().csrf().disable();

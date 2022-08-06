@@ -1,6 +1,7 @@
 package com.roberto.taPronto.security;
 
 
+import com.roberto.taPronto.domain.enums.Profile;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,6 +15,8 @@ import java.util.Objects;
 @Component
 public class JWTUtil {
 
+    private static final String AUTHORITIES_KEY = "auth";
+
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -25,6 +28,7 @@ public class JWTUtil {
         Date expirationTimeMillisecond = new Date(System.currentTimeMillis() + Long.parseLong(expirationInMinutes) * 60 * 1000);
         return Jwts.builder().setSubject(username)
                 .setExpiration(expirationTimeMillisecond)
+                .claim(AUTHORITIES_KEY, Profile.values())
                 .signWith(SignatureAlgorithm.HS512, secretKey.getBytes())
                 .compact();
     }

@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -57,10 +58,8 @@ public class UserService {
         return this.repository.save(currentUser);
     }
 
-    public Page<User> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-        return repository.findAll(pageRequest);
+    public Page<User> findPage(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {

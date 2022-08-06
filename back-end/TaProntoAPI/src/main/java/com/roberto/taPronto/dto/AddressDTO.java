@@ -13,15 +13,21 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressDTO {
+
     private Integer id;
+
     @NotEmpty
     private String cep;
+
     @NotEmpty
     private String city;
+
     @NotEmpty
     private String district;
+
     @NotEmpty
     private String street;
+
     @NotEmpty
     private String referencePoint;
 
