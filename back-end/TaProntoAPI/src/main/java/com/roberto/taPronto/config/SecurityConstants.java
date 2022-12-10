@@ -10,10 +10,12 @@ public final class SecurityConstants {
     public static final String TEST = "TEST";
 
     public static final String[] PUBLIC_MATCHERS = {
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+            "/api/**/auth/**"
     };
 
     public static final String[] PUBLIC_TEST_MATCHERS = {
-            "/h2-console/**"
+            "/h2-console/**",
+            "/api/**/auth/**"
     };
 }
