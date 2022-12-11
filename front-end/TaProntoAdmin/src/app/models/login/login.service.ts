@@ -25,21 +25,13 @@ export class LoginService {
     });
   }
 
-  private successfulLogin(token: string) {
-    token = token.substring(7);
-    localStorage.setItem(ACCESS_TOKEN, token)
-  }
-
-  logout(){
+  logout() {
     localStorage.clear();
   }
 
-  getToken() {
-    return localStorage.getItem(ACCESS_TOKEN) || '';
-  }
-
-  setToken(newToken:string) {
-    localStorage.setItem(ACCESS_TOKEN, newToken);
+  private successfulLogin(token: string) {
+    token = token.substring(7);
+    localStorage.setItem(ACCESS_TOKEN, token)
   }
 
 }
