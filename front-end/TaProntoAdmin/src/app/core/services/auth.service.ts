@@ -18,9 +18,9 @@ export class AuthService {
     return this.http.post(AUTH_API, userCredentials,{observe: 'response', responseType: 'text'});
   }
 
-  getRefreshToken(token: string): Observable<any> {
+  getRefreshToken(): Observable<any> {
     return this.http.post(AUTH_API + 'refreshtoken', {
-      refreshToken: token
+      refreshToken: this.getToken()
     }, {observe: 'response', responseType: 'text'});
   }
 

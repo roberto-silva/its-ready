@@ -11,13 +11,18 @@ import {HttpClientModule} from "@angular/common/http";
 import {ErrorInterceptorProvider} from "../interceptors/error-interceptor";
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AuthInterceptorProvider} from "../interceptors/auth-interceptor";
+import { HomeComponent } from './models/home/component/home.component';
+import {UserAutenticated} from "../services/user-autenticated";
 
+export const TOAST_PROVIDER = {provide: ToastrService, useClass: ToastrService};
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -29,8 +34,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
   ],
   providers: [
     HttpClientModule,
+    AuthInterceptorProvider,
     ErrorInterceptorProvider,
-    {provide: ToastrService, useClass: ToastrService}
+    TOAST_PROVIDER,
+    UserAutenticated
   ],
   bootstrap: [AppComponent]
 })

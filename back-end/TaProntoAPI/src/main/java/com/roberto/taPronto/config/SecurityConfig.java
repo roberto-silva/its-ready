@@ -38,9 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
 
-    @Value("${allowed.origins}")
-    private String[] allowedOrigins;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -70,7 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
         configuration.setAllowedMethods(Arrays.asList("POST","GET", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "responseType", "Authorization", "Access-Control-Allow-Headers"));
-        configuration.setAllowedOrigins(List.of(allowedOrigins));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         configuration.addExposedHeader(HttpHeaders.AUTHORIZATION);
         source.registerCorsConfiguration("/**", configuration);
