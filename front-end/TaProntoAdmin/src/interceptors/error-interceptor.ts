@@ -19,12 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       tap(() => {
       }),
       catchError(response => {
-
-        if (response instanceof HttpErrorResponse && response.error) {
-          return throwError(response.error);
-        }
-
-        return throwError(response);
+        return throwError(response.error ? JSON.parse(response.error) : response);
       })
     )
   }

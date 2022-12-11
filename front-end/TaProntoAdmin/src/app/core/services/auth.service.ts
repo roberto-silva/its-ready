@@ -12,14 +12,14 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  getAcessToken(userCredentials: UserCredentials): Observable<any> {
-    return this.http.post(AUTH_API, userCredentials,{observe: 'response'});
+  getAccessToken(userCredentials: UserCredentials): Observable<any> {
+    return this.http.post(AUTH_API, userCredentials,{observe: 'response', responseType: 'text'});
   }
 
-  refreshToken(token: string): Observable<any> {
+  getRefreshToken(token: string): Observable<any> {
     return this.http.post(AUTH_API + 'refreshtoken', {
       refreshToken: token
-    });
+    }, {observe: 'response', responseType: 'text'});
   }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -28,13 +29,15 @@ import java.util.Objects;
 public class AuthController {
 
     private JWTUtil jwtUtil;
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @PostMapping
     public ResponseEntity<Void> auth(@RequestBody @Validated CredentialsDTO credentialsDTO, HttpServletResponse response) throws ParseException {
-
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 credentialsDTO.getUsername(), credentialsDTO.getPassword(), new ArrayList<>());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authToken);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
         response.addHeader("Authorization", "Bearer " + jwtUtil.generateToken(authToken.getName()));
@@ -52,7 +55,6 @@ public class AuthController {
             String token = jwtUtil.generateToken(userSpringSecurity.getUsername());
             response.addHeader("Access-Control-Expose-Headers", "Authorization");
             response.addHeader("Authorization", "Bearer " + token);
-
         }
 
         return ResponseEntity.ok().build();

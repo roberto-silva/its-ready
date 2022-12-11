@@ -2,13 +2,12 @@ import {Injectable} from '@angular/core';
 import {AuthService, UserCredentials} from "../../core/services/auth.service";
 import {HttpResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
+import {ACCESS_TOKEN} from "../../app.constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-
-  private readonly _ACESS_TOKEN = "ACCESS_TOKEN";
 
   constructor(
     private readonly authService: AuthService,
@@ -17,17 +16,30 @@ export class LoginService {
   }
 
   login(userCredentials: UserCredentials) {
-    this.authService.getAcessToken(userCredentials).subscribe((value: HttpResponse<any>) => {
+    this.authService.getAccessToken(userCredentials).subscribe((value: HttpResponse<any>) => {
       const token = value.headers.get('Authorization') || '';
-      localStorage.setItem(this._ACESS_TOKEN, token)
+      this.successfulLogin(token);
       this.toastrService.success("Login successful.");
-    }, error => {
-        this.toastrService.error(error);
+    }, (error: any) => {
+      this.toastrService.error(error.message);
     });
   }
 
-  get token() {
-    return localStorage.getItem(this._ACESS_TOKEN) || '';
+  private successfulLogin(token: string) {
+    token = token.substring(7);
+    localStorage.setItem(ACCESS_TOKEN, token)
+  }
+
+  logout(){
+    localStorage.clear();
+  }
+
+  getToken() {
+    return localStorage.getItem(ACCESS_TOKEN) || '';
+  }
+
+  setToken(newToken:string) {
+    localStorage.setItem(ACCESS_TOKEN, newToken);
   }
 
 }
