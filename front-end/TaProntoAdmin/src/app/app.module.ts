@@ -14,6 +14,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AuthInterceptorProvider} from "../interceptors/auth-interceptor";
 import { HomeComponent } from './models/home/component/home.component';
 import {UserAutenticated} from "../services/user-autenticated";
+import { SidebarComponent } from './core/component/sidebar/sidebar.component';
 
 export const TOAST_PROVIDER = {provide: ToastrService, useClass: ToastrService};
 @NgModule({
@@ -22,7 +23,8 @@ export const TOAST_PROVIDER = {provide: ToastrService, useClass: ToastrService};
     NavbarComponent,
     FooterComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

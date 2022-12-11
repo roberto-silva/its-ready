@@ -39,7 +39,7 @@ export class LoginService {
 
   logout() {
     localStorage.clear();
-    this.router.navigate(['']).then();
+    this.router.navigate(['login']).then();
   }
 
   private successfulLogin(token: string) {
