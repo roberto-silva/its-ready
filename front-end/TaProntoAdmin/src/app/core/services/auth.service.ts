@@ -17,11 +17,11 @@ export class AuthService {
   }
 
   refreshToken(token: string): Observable<any> {
-
     return this.http.post(AUTH_API + 'refreshtoken', {
       refreshToken: token
     });
   }
+
 }
 
 export class UserCredentials {

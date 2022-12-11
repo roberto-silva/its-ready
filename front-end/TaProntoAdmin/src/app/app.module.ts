@@ -8,6 +8,9 @@ import {FooterComponent} from './core/component/footer/footer.component';
 import {LoginComponent} from './models/login/component/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import {ErrorInterceptorProvider} from "../interceptors/error-interceptor";
+import {ToastrModule, ToastrService} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -20,9 +23,15 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
-  providers: [HttpClientModule],
+  providers: [
+    HttpClientModule,
+    ErrorInterceptorProvider,
+    {provide: ToastrService, useClass: ToastrService}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
