@@ -6,3 +6,32 @@ button.btn.btn-primary {
   background-color: var(--teal);
   border: var(--bs-white) 2px solid;
 }
+
+button.btn.btn-primary:focus{
+  background-color: var(--teal-dark);
+  color: white;
+}
+
+label {
+  margin-left: 10px ;
+  color: white;
+}
+
+h1 {
+  color: var(--teal);
+  font-weight: bolder;
+}
+
+input.form-control {
+  background-color: var(--teal);
+  color: white;
+}
+input.form-control:focus {
+  background-color: var(--teal-dark);
+  color: white;
+}
+
+a{
+  color: var(--teal-dark);
+  font-size: 20px;
+}

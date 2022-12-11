@@ -4,18 +4,18 @@
 <div class="d-flex flex-row align-items-center justify-content-center">
   <section id="login-section" class="p-5">
     <img src="assets/images/logo.svg" class="logo">
-    <h2>Login</h2>
+    <h1 class="text-center mb-4">Login</h1>
     <form [formGroup]="userCredentialsForm" (ngSubmit)="login()">
       <div class="mb-3 row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-12">
-          <input type="text" class="form-control" id="inputEmail" formControlName="username">
+        <div class="form-floating">
+          <input type="email" class="form-control" id="inputEmail" formControlName="username" placeholder="name@example.com">
+          <label for="inputEmail">Email</label>
         </div>
       </div>
       <div class="mb-3 row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-        <div class="col-12">
-          <input type="password" class="form-control" id="inputPassword" formControlName="password">
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="inputPassword" formControlName="password" placeholder="Password">
+          <label for="inputPassword">Password</label>
         </div>
       </div>
       <a href="" class="float-start">Create a new account.</a>
