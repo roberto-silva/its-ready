@@ -12,4 +12,5 @@ spring:
 jwt:
   secret: its-ready-0.0.1
   expiration-minutes: 1
-
+allowed:
+  origins: localhost:4200,localhost:4300

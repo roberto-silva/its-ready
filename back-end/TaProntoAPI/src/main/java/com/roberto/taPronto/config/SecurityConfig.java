@@ -4,6 +4,8 @@ import com.roberto.taPronto.security.JWTAuthenticationFilter;
 import com.roberto.taPronto.security.JWTAuthorizationFilter;
 import com.roberto.taPronto.security.JWTUtil;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -20,19 +22,24 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.roberto.taPronto.config.SecurityConstants.*;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private Environment environment;
-    private UserDetailsService userDetailsService;
-    private JWTUtil jwtUtil;
+    private final Environment environment;
+    private final UserDetailsService userDetailsService;
+    private final JWTUtil jwtUtil;
+
+    @Value("${allowed.origins}")
+    private String[] allowedOrigins;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -63,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
         configuration.setAllowedMethods(Arrays.asList("POST","GET", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "responseType", "Authorization", "Access-Control-Allow-Headers"));
+        configuration.setAllowedOrigins(List.of(allowedOrigins));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         configuration.addExposedHeader(HttpHeaders.AUTHORIZATION);
         source.registerCorsConfiguration("/**", configuration);
