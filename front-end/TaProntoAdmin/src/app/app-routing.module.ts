@@ -9,7 +9,7 @@ const routes: Routes = [
     canActivate: [UserAutenticated]
   },
   {
-    path: '',
+    path: 'login',
     loadChildren: () => import('./models/login/login.module').then((mod) => mod.LoginModule),
     canActivate: []
   }
