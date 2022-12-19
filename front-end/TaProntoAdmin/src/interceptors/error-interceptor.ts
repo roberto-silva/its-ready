@@ -28,7 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.handleUnauthorizedError(request, next);
             break;
           case 403:
-            this.handleForbidenError();
+            this.handleForbiddenError(request, next);
             break;
           default:
             break;
@@ -39,7 +39,16 @@ export class ErrorInterceptor implements HttpInterceptor {
     )
   }
 
-  handleForbidenError() {
+  handleForbiddenError(req: any, next: HttpHandler) {
+    if (!!this.authService.getToken()) {
+      let cloneReq = req.clone();
+      next.handle(req);
+
+      this.loginService.refreshToken();
+      next.handle(cloneReq);
+
+    }
+
     this.loginService.logout();
   }
 
