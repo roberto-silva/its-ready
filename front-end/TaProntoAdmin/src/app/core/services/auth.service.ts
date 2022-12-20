@@ -45,6 +45,10 @@ export class AuthService {
     return this.getAccessTokenInStorage() ? this.helper.decodeToken(this.getAccessTokenInStorage()).sub : '';
   }
 
+  refreshTokenExpired(){
+    return this.helper.isTokenExpired(this.getRefreshTokenInStorage());
+  }
+
 }
 
 export class UserCredentials {

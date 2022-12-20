@@ -4,8 +4,7 @@
   background-color: var(--ligth-grey);
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
-  float: left;
-  margin-right: 50px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 
   .logo {
     display: none;

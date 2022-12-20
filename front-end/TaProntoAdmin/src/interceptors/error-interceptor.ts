@@ -5,7 +5,6 @@ import {Observable, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 import {LoginService} from "../app/models/login/login.service";
 import {AuthService} from "../app/core/services/auth.service";
-import {BASE_API} from "../app/app.constants";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -40,20 +39,16 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   handleForbiddenError(request: any, next: HttpHandler): any {
-    if (!!this.authService.getAccessTokenInStorage()) {
-      return this.executeRefreshToken(request, next);
+    if (!!this.authService.getAccessTokenInStorage() && !this.authService.refreshTokenExpired()) {
+      return this.loginService.refreshToken(request, next);
     } else {
       this.loginService.logout();
     }
   }
 
-  private executeRefreshToken(request: any, next: HttpHandler): any {
-    this.loginService.refreshToken(request, next);
-  }
-
   private handleUnauthorizedError(request: any, next: HttpHandler): any {
-    if (!!this.authService.getAccessTokenInStorage()) {
-      return this.executeRefreshToken(request, next);
+    if (!!this.authService.getAccessTokenInStorage() && !this.authService.refreshTokenExpired()) {
+      return this.loginService.refreshToken(request, next);
     } else {
       this.loginService.logout();
     }
