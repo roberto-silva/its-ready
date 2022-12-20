@@ -5,11 +5,9 @@ import com.roberto.taPronto.domain.User;
 import com.roberto.taPronto.service.UserService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,18 +26,8 @@ public class UserController {
 
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATTENDANT')")
-	public ResponseEntity<List<UserDTO>> findAll() {
-		List<User> list = this.service.findAll();
-		List<UserDTO> listDTO = list.stream().map(UserDTO:: new).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
-	}
-
-	@GetMapping(value = "/page")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATTENDANT')")
-	public ResponseEntity<Page<UserDTO>> findAllPaged(Pageable pageable) {
-		Page<User> list = this.service.findPage(pageable);
-		Page<UserDTO> listDTO = list.map(UserDTO:: new);
-		return ResponseEntity.ok().body(listDTO);
+	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
+		return ResponseEntity.ok().body(this.service.findAll(pageable).map(UserDTO:: new));
 	}
 
 	@GetMapping(value = "/{id}")

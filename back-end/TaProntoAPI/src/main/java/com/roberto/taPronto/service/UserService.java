@@ -10,9 +10,7 @@ import javassist.tools.rmi.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,8 +35,8 @@ public class UserService {
         return repository.existsByCpf(cpf);
     }
 
-    public List<User> findAll() {
-        return repository.findAll();
+    public Page<User> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public User create(UserDTO userDTO) {
@@ -56,10 +54,6 @@ public class UserService {
         BeanUtils.copyProperties(userDTO, currentUser);
         currentUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return this.repository.save(currentUser);
-    }
-
-    public Page<User> findPage(Pageable pageable) {
-        return repository.findAll(pageable);
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
