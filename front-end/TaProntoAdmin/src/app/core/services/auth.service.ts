@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {ACCESS_TOKEN, AUTH_API, httpOptions} from "../../app.constants";
+import {ACCESS_TOKEN, AUTH_API} from "../../app.constants";
 import {Observable} from "rxjs";
 import {JwtHelperService} from "@auth0/angular-jwt";
 
@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   getRefreshToken(): Observable<any> {
-    return this.http.post(AUTH_API + 'refreshtoken', {
+    return this.http.post(AUTH_API + '/refresh-token', {
       refreshToken: this.getToken()
     }, {observe: 'response', responseType: 'text'});
   }

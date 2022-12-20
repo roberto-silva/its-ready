@@ -7,6 +7,11 @@ export const HOME_ROUTE: Route = {
   data: {
     authorities: [],
     pageTitle: 'Home',
-  }
-
+  },
+  children: [
+    {
+      path: 'users',
+      loadChildren: () => import('../user/user.module').then(m => m.UserModule)
+    }
+  ]
 };

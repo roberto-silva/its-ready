@@ -4,6 +4,7 @@ import com.roberto.taPronto.dto.CredentialsDTO;
 import com.roberto.taPronto.security.JWTUtil;
 import com.roberto.taPronto.security.UserSpringSecurity;
 import com.roberto.taPronto.service.UserService;
+import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -46,17 +49,15 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/refresh_token")
-    public ResponseEntity<Void> refreshToken(HttpServletResponse response) throws ParseException {
+    @PostMapping("/refresh-token")
+    public ResponseEntity<Void> refreshToken(HttpServletRequest request) throws ParseException {
 
-        UserSpringSecurity userSpringSecurity = UserService.getUserLogged();
+        // From the HttpRequest get the claims
+        DefaultClaims claims = (DefaultClaims) request.getAttribute("claims");
 
-        if (Objects.nonNull(userSpringSecurity)) {
-            String token = jwtUtil.generateToken(userSpringSecurity.getUsername());
-            response.addHeader("Access-Control-Expose-Headers", "Authorization");
-            response.addHeader("Authorization", "Bearer " + token);
-        }
-
-        return ResponseEntity.ok().build();
+//        Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
+//        String token = jwtUtil.generateToken(expectedMap, expectedMap.get("sub").toString());
+//        return ResponseEntity.ok(new AuthenticationResponse(token));
+        return null;
     }
 }

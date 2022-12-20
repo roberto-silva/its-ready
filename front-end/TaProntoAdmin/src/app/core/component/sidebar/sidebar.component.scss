@@ -1,9 +1,11 @@
 .sidebar {
-  width: 50px;
+  width: var(--sidebar-width);
   height: 100vh;
   background-color: var(--ligth-grey);
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
+  float: left;
+  margin-right: 50px;
 
   .logo {
     display: none;
@@ -39,7 +41,7 @@
 }
 
 .sidebar:hover {
-  width: 200px;
+  --sidebar-width: 200px;
   animation: fadeIn 0.5s;
 
   .logo {
@@ -56,7 +58,9 @@
   .logout {
     margin-top: 50px;
   }
+
 }
+
 .sidebar:not(:hover) {
   .nav-links {
     width: auto;
@@ -65,7 +69,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding:0;
+    padding: 0;
+
     span {
       font-size: 35px;
     }
@@ -74,7 +79,13 @@
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }

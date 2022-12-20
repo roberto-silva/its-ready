@@ -21,9 +21,8 @@ export class ErrorInterceptor implements HttpInterceptor {
       tap(() => {
       }),
       catchError(response => {
-        let reponseObj = response.error ? JSON.parse(response.error) : response;
 
-        switch (reponseObj.status) {
+        switch (response.error.status) {
           case 401:
             this.handleUnauthorizedError(request, next);
             break;
@@ -34,7 +33,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             break;
         }
 
-        return throwError(reponseObj);
+        return throwError(response.error);
       })
     )
   }
@@ -46,19 +45,18 @@ export class ErrorInterceptor implements HttpInterceptor {
 
       this.loginService.refreshToken();
       next.handle(cloneReq);
-
+    } else {
+      this.loginService.logout();
     }
-
-    this.loginService.logout();
   }
 
 // TODO I must improve refresh token strategy, currently it is just replacing tokens
   private handleUnauthorizedError(req: any, next: HttpHandler) {
 
-      if (!!this.authService.getToken()) {
-        return this.loginService.refreshToken();
-        return next.handle(req);
-      }
+    if (!!this.authService.getToken()) {
+      return this.loginService.refreshToken();
+      return next.handle(req);
+    }
   }
 }
 
