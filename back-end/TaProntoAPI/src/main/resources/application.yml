@@ -11,4 +11,7 @@ spring:
     show-sql: true
 jwt:
   secret: its-ready-0.0.1
-  expiration-minutes: 1
+  token:
+    expiration-minutes: 1
+  refresh-token:
+    expiration-minutes: 60

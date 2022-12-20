@@ -1,11 +1,12 @@
 package com.roberto.taPronto.security;
 
 
-import com.roberto.taPronto.domain.enums.Profile;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
@@ -20,29 +21,49 @@ public class JWTUtil {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.expiration-minutes}")
-    private String expirationInMinutes;
+    @Value("${jwt.token.expiration-minutes}")
+    private String tokenExpirationInMinutes;
+
+    @Value("${jwt.refresh-token.expiration-minutes}")
+    private String refreshTokenExpirationInMinutes;
+    private final UserDetailsServiceImpl userDetailsService;
+
+    public JWTUtil(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     public String generateToken(String username) throws ParseException {
-
-        Date expirationTimeMillisecond = new Date(System.currentTimeMillis() + Long.parseLong(expirationInMinutes) * 60 * 1000);
+        UserDetails user = userDetailsService.loadUserByUsername(username);
         return Jwts.builder().setSubject(username)
-                .setExpiration(expirationTimeMillisecond)
-                .claim(AUTHORITIES_KEY, Profile.values())
+                .setExpiration(getTokenExpirationDate(tokenExpirationInMinutes))
+                .claim(AUTHORITIES_KEY, user.getAuthorities())
                 .signWith(SignatureAlgorithm.HS512, secretKey.getBytes())
                 .compact();
     }
 
-    public boolean isValid(String token) {
+    public String generateRefreshToken(String username) throws ParseException {
+        UserDetails user = userDetailsService.loadUserByUsername(username);
+        return Jwts.builder().setSubject(username)
+                .setExpiration(getTokenExpirationDate(refreshTokenExpirationInMinutes))
+                .claim(AUTHORITIES_KEY, user.getAuthorities())
+                .signWith(SignatureAlgorithm.HS512, secretKey.getBytes())
+                .compact();
+    }
+
+    public boolean checkIfTokenIsValid(String token) {
 
         Claims claims = getClaims(token);
         if (Objects.nonNull(claims)) {
             String userName = claims.getSubject();
             Date expirationDate = claims.getExpiration();
             Date now = new Date(System.currentTimeMillis());
-            return Objects.nonNull(userName) && Objects.nonNull(expirationDate) && now.before(expirationDate);
+            if (Objects.nonNull(userName) && Objects.nonNull(expirationDate) && now.before(expirationDate)) {
+                return true;
+            } else {
+                throw new RuntimeException("Invalid Token");
+            }
         }
-        return false;
+        throw new RuntimeException("Invalid Token");
     }
 
 
@@ -55,12 +76,25 @@ public class JWTUtil {
         return null;
     }
 
-    private Claims getClaims(String token) {
+    public UsernamePasswordAuthenticationToken getAuthentication(String token) {
+        if (checkIfTokenIsValid(token)) {
+            String username = getUserName(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        }
+        return null;
+    }
 
+    public Claims getClaims(String token) {
         try {
             return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
         } catch (Exception e) {
             return null;
         }
     }
+
+    private Date getTokenExpirationDate(String tokenExpirationInMinutes) {
+        return new Date(System.currentTimeMillis() + Long.parseLong(tokenExpirationInMinutes) * 60 * 1000);
+    }
+
 }

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value="/users")
+@RequestMapping(value="/api/v1/users")
 public class UserController {
 
 	private UserService service;

@@ -1,11 +1,12 @@
 package com.roberto.taPronto.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -13,39 +14,45 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
+import static com.roberto.taPronto.security.AuthorizationUtil.handleForbiddenError;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+
+@Slf4j
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final JWTUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserDetailsService userDetailsService) {
+    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         super(authenticationManager);
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws IOException, ServletException {
-        var token = request.getHeader("Authorization");
-        if (Strings.isNotBlank(token) && token.startsWith("Bearer ")) {
-            UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(request, token.substring(7));
-            if (Objects.nonNull(authenticationToken)) {
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        if (request.getServletPath().equals("/login")) {
+            filterChain.doFilter(request, response);
+        } else {
+            try {
+                var authorizationHeader = request.getHeader(AUTHORIZATION);
+                if (Strings.isNotBlank(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+                    var token = authorizationHeader.substring("Bearer ".length());
+                    jwtUtil.checkIfTokenIsValid(token);
+                    UsernamePasswordAuthenticationToken authenticationToken = jwtUtil.getAuthentication(token);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    filterChain.doFilter(request, response);
+
+                }
+                throw new RuntimeException("Invalid Token");
+            } catch (Exception exception) {
+                handleForbiddenError(response, exception);
             }
         }
-        filterChain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String token) {
-        if (jwtUtil.isValid(token)) {
-            String username = jwtUtil.getUserName(token);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            return  new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        }
-        return null;
-    }
 }

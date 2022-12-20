@@ -52,8 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
-        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
+        var authenticationFilter = new JWTAuthenticationFilter(authenticationManager(), jwtUtil);
+        authenticationFilter.setFilterProcessesUrl("/api/v1/auth");
+        http.addFilter(authenticationFilter);
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 

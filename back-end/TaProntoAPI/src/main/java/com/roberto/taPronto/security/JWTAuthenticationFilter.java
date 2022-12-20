@@ -2,6 +2,7 @@ package com.roberto.taPronto.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roberto.taPronto.dto.CredentialsDTO;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -44,20 +47,26 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest req,
-                                            HttpServletResponse res,
+    protected void successfulAuthentication(HttpServletRequest request,
+                                            HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
+                                            Authentication auth) throws IOException {
 
         String username = ((UserSpringSecurity) auth.getPrincipal()).getUsername();
-        String token = null;
+        String access_token = null;
+        String refresh_token = null;
         try {
-            token = jwtUtil.generateToken(username);
+            access_token = jwtUtil.generateToken(username);
+            refresh_token = jwtUtil.generateRefreshToken(username);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        res.addHeader("Authorization", "Bearer " + token);
-        res.addHeader("access-control-expose-headers", "Authorization");
+
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("access_token", access_token);
+        tokens.put("refresh_token", refresh_token);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 
     private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
