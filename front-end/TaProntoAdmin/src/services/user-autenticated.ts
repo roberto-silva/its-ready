@@ -13,7 +13,7 @@ export class UserAutenticated implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let authenticated = !!this.authService.getToken();
+    let authenticated = !!this.authService.getAccessTokenInStorage();
 
     if(!authenticated){
       this.router.navigate(['login']).then();

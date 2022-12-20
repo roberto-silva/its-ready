@@ -5,6 +5,7 @@ import {Observable, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 import {LoginService} from "../app/models/login/login.service";
 import {AuthService} from "../app/core/services/auth.service";
+import {BASE_API} from "../app/app.constants";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -21,8 +22,8 @@ export class ErrorInterceptor implements HttpInterceptor {
       tap(() => {
       }),
       catchError(response => {
-
-        switch (response.error.status) {
+        const result = response.error.status || response.status;
+        switch (result) {
           case 401:
             this.handleUnauthorizedError(request, next);
             break;
@@ -38,24 +39,23 @@ export class ErrorInterceptor implements HttpInterceptor {
     )
   }
 
-  handleForbiddenError(req: any, next: HttpHandler) {
-    if (!!this.authService.getToken()) {
-      let cloneReq = req.clone();
-      next.handle(req);
-
-      this.loginService.refreshToken();
-      next.handle(cloneReq);
+  handleForbiddenError(request: any, next: HttpHandler): any {
+    if (!!this.authService.getAccessTokenInStorage()) {
+      return this.executeRefreshToken(request, next);
     } else {
       this.loginService.logout();
     }
   }
 
-// TODO I must improve refresh token strategy, currently it is just replacing tokens
-  private handleUnauthorizedError(req: any, next: HttpHandler) {
+  private executeRefreshToken(request: any, next: HttpHandler): any {
+    this.loginService.refreshToken(request, next);
+  }
 
-    if (!!this.authService.getToken()) {
-      return this.loginService.refreshToken();
-      return next.handle(req);
+  private handleUnauthorizedError(request: any, next: HttpHandler): any {
+    if (!!this.authService.getAccessTokenInStorage()) {
+      return this.executeRefreshToken(request, next);
+    } else {
+      this.loginService.logout();
     }
   }
 }

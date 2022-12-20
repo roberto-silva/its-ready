@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {ACCESS_TOKEN, AUTH_API} from "../../app.constants";
+import {HttpClient} from "@angular/common/http";
+import {ACCESS_TOKEN, AUTH_API, REFRESH_TOKEN} from "../../app.constants";
 import {Observable} from "rxjs";
 import {JwtHelperService} from "@auth0/angular-jwt";
 
@@ -15,30 +15,39 @@ export class AuthService {
   }
 
   getAccessToken(userCredentials: UserCredentials): Observable<any> {
-    return this.http.post(AUTH_API, userCredentials,{observe: 'response', responseType: 'text'});
+    return this.http.post(AUTH_API, userCredentials, {observe: 'response', responseType: 'json'});
   }
 
   getRefreshToken(): Observable<any> {
-    return this.http.post(AUTH_API + '/refresh-token', {
-      refreshToken: this.getToken()
-    }, {observe: 'response', responseType: 'text'});
+    const headers = {
+      Authorization: 'Bearer ' + this.getRefreshTokenInStorage()
+    };
+    return this.http.get(AUTH_API + '/token/refresh', {observe: 'response', responseType: 'json', headers: headers},);
   }
 
-  getToken() {
+  getAccessTokenInStorage() {
     return localStorage.getItem(ACCESS_TOKEN) || '';
   }
 
-  setToken(newToken:string) {
+  getRefreshTokenInStorage() {
+    return localStorage.getItem(REFRESH_TOKEN) || '';
+  }
+
+  setAccessTokenInStorage(newToken: string) {
     localStorage.setItem(ACCESS_TOKEN, newToken);
   }
 
+  setRefreshTokenInStorage(newToken: string) {
+    localStorage.setItem(REFRESH_TOKEN, newToken);
+  }
+
   getEmail() {
-    return this.getToken() ? this.helper.decodeToken(this.getToken()).sub : '';
+    return this.getAccessTokenInStorage() ? this.helper.decodeToken(this.getAccessTokenInStorage()).sub : '';
   }
 
 }
 
 export class UserCredentials {
-    constructor(email:string, password:string) {
-    }
+  constructor(email: string, password: string) {
+  }
 }

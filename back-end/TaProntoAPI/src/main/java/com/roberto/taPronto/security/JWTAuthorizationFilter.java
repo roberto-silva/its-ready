@@ -1,9 +1,7 @@
 package com.roberto.taPronto.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,12 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.roberto.taPronto.security.AuthorizationUtil.handleForbiddenError;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @Slf4j
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
@@ -46,9 +41,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     UsernamePasswordAuthenticationToken authenticationToken = jwtUtil.getAuthentication(token);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
-
+                } else {
+                    throw new RuntimeException("Invalid Token");
                 }
-                throw new RuntimeException("Invalid Token");
             } catch (Exception exception) {
                 handleForbiddenError(response, exception);
             }

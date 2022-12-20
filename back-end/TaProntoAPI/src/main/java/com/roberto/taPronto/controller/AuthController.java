@@ -57,8 +57,9 @@ public class AuthController {
                 tokens.put("refresh_token", refresh_token);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+            } else {
+                throw new RuntimeException("Invalid Token");
             }
-            throw new RuntimeException("Invalid Token");
         } catch (Exception exception) {
             handleForbiddenError(response, exception);
         }

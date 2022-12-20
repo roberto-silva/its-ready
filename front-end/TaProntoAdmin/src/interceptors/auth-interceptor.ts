@@ -20,11 +20,11 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let token = this.authService.getToken();
+    let token = this.authService.getAccessTokenInStorage();
     let baseUrlLength = BASE_API.length;
     let requestToAPI = request.url.substring(0, baseUrlLength) == BASE_API;
 
-    if(token && requestToAPI) {
+    if(token && requestToAPI && !request.url.includes('/token/refresh')) {
       let authReq = request.clone({headers: request.headers.set('Authorization', 'Bearer ' + token)});
       return next.handle(authReq);
     }
