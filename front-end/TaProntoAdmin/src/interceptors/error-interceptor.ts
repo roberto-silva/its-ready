@@ -1,58 +1,45 @@
 import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 
-import {catchError, tap} from 'rxjs/operators';
-import {Observable, throwError} from "rxjs";
+import {catchError} from 'rxjs/operators';
+import {Observable, switchMap, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 import {LoginService} from "../app/models/login/login.service";
 import {AuthService} from "../app/core/services/auth.service";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(
     private readonly loginService: LoginService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly toastrService: ToastrService
   ) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    return next.handle(request).pipe(
-      tap(() => {
-      }),
-      catchError(response => {
-        const result = response.error.status || response.status;
-        switch (result) {
-          case 401:
-            this.handleUnauthorizedError(request, next);
-            break;
-          case 403:
-            this.handleForbiddenError(request, next);
-            break;
-          default:
-            break;
-        }
-
-        return throwError(response.error);
-      })
-    )
+    return next.handle(request).pipe(catchError((error: any) => {
+      if (!this.authService.refreshTokenExpired() && error.status === 403 && this.authService.getRefreshTokenInStorage()) {
+        return this.refreshToken(request, next);
+      }
+      if (this.authService.refreshTokenExpired() || error.status === 401) {
+        this.loginService.logout();
+        this.toastrService.info("User disconnected due to inactivity, to continue using the application, log in again by entering the login and password.");
+      }
+      return throwError(error);
+    }));
   }
 
-  handleForbiddenError(request: any, next: HttpHandler): any {
-    if (!!this.authService.getAccessTokenInStorage() && !this.authService.refreshTokenExpired()) {
-      return this.loginService.refreshToken(request, next);
-    } else {
+  private refreshToken(request: HttpRequest<any>, next: HttpHandler) {
+    return this.authService.getRefreshToken().pipe(switchMap((response) => {
+      this.loginService.successfulLogin(response.body);
+      return next.handle(request.clone({headers: request.headers.set('Authorization', 'Bearer ' + this.authService.getAccessTokenInStorage())}));
+    }), catchError((error) => {
       this.loginService.logout();
-    }
+      return throwError(error);
+    }));
   }
 
-  private handleUnauthorizedError(request: any, next: HttpHandler): any {
-    if (!!this.authService.getAccessTokenInStorage() && !this.authService.refreshTokenExpired()) {
-      return this.loginService.refreshToken(request, next);
-    } else {
-      this.loginService.logout();
-    }
-  }
 }
 
 export const ErrorInterceptorProvider = {

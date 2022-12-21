@@ -33,18 +33,6 @@ export class AuthService {
     return localStorage.getItem(REFRESH_TOKEN) || '';
   }
 
-  setAccessTokenInStorage(newToken: string) {
-    localStorage.setItem(ACCESS_TOKEN, newToken);
-  }
-
-  setRefreshTokenInStorage(newToken: string) {
-    localStorage.setItem(REFRESH_TOKEN, newToken);
-  }
-
-  getEmail() {
-    return this.getAccessTokenInStorage() ? this.helper.decodeToken(this.getAccessTokenInStorage()).sub : '';
-  }
-
   refreshTokenExpired(){
     return this.helper.isTokenExpired(this.getRefreshTokenInStorage());
   }

@@ -1,14 +1,5 @@
-import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpResponse,
-  HttpErrorResponse,
-  HttpHandler,
-  HttpEvent, HTTP_INTERCEPTORS
-} from '@angular/common/http';
-
-import { tap, catchError } from 'rxjs/operators';
-import {Observable, throwError} from "rxjs";
+import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {AuthService} from "../app/core/services/auth.service";
 import {BASE_API} from "../app/app.constants";
@@ -23,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     let token = this.authService.getAccessTokenInStorage();
     let baseUrlLength = BASE_API.length;
     let requestToAPI = request.url.substring(0, baseUrlLength) == BASE_API;
-    if(token && requestToAPI && !request.url.includes('/token/refresh')) {
+    if (token && requestToAPI && !request.url.includes('/token/refresh')) {
       let authReq = request.clone({headers: request.headers.set('Authorization', 'Bearer ' + token)});
       return next.handle(authReq);
     }
