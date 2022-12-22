@@ -2,9 +2,10 @@
   width: var(--sidebar-width);
   height: 100vh;
   background-color: var(--ligth-grey);
-  border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  position: sticky;
+  z-index: 2;
 
   .logo {
     display: none;
@@ -47,7 +48,7 @@
     display: inherit;
     width: 200px;
     margin-bottom: 50px;
-    padding-top: 30px;
+    padding-top: 10px;
   }
 
   a .expanded-item {

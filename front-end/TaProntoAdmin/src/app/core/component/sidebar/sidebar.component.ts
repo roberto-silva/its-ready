@@ -8,12 +8,8 @@ import {LoginService} from "../../../models/login/login.service";
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private readonly loginService: LoginService) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  logout() {
-    this.loginService.logout();
   }
 }

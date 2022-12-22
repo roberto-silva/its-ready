@@ -1,0 +1,21 @@
+.nav-bar {
+  width: 100%;
+  height: 50px;
+  background-color: var(--ligth-grey);
+  border-bottom-right-radius: 50px;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  .logo {
+    display: inherit;
+    width: 200px;
+    z-index: 3;
+    position: sticky;
+  }
+  span {
+    color: var(--teal);
+    font-weight: bolder;
+    cursor: pointer;
+  }
+}
