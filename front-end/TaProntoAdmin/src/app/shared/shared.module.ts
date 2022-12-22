@@ -1,15 +1,18 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ToastComponent } from './toast/toast.component';
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {SearchComponent} from './components/search/search.component';
 
 
 @NgModule({
   declarations: [
-    ToastComponent
+    SearchComponent
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    SearchComponent,
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

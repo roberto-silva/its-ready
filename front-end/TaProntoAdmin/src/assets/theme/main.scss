@@ -26,6 +26,7 @@ input.form-control {
   background-color: var(--teal);
   color: white;
 }
+
 input.form-control:focus {
   background-color: var(--teal-dark);
   color: white;
@@ -33,5 +34,26 @@ input.form-control:focus {
 
 a{
   color: var(--teal-dark);
-  font-size: 20px;
+  font-size: 18px;
+}
+header {
+  background-color: var(--ligth-grey);
+  border-radius: 14px;
+  padding: 10px 20px;
+
+  .btn.btn-primary  {
+    border: none;
+    font-weight: bolder;
+  }
+}
+
+.title {
+  font-size: 34px;
+  font-weight: bolder;
+}
+
+
+.sub-title {
+  font-size: 14px;
+  font-weight: 700;
 }

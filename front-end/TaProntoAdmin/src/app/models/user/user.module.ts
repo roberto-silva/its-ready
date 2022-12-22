@@ -4,6 +4,7 @@ import {UserListComponent} from './component/user-list/user-list.component';
 import {UserFormComponent} from './component/user-form/user-form.component';
 import {RouterModule} from "@angular/router";
 import {USER_ROUTE} from "./user.route";
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
@@ -11,10 +12,11 @@ import {USER_ROUTE} from "./user.route";
     UserListComponent,
     UserFormComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(USER_ROUTE)
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(USER_ROUTE),
+        SharedModule
+    ]
 })
 export class UserModule {
 }

@@ -1,18 +1,37 @@
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Name</th>
-    <th scope="col">Email</th>
-    <th scope="col">Profile</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let user of users">
-    <td>{{ user.id }}</td>
-    <td>{{ user.name }}</td>
-    <td>{{ user.email }}</td>
-    <td>{{ user.profile}}</td>
-  </tr>
-  </tbody>
-</table>
+<header class="d-flex justify-content-between align-items-center">
+  <div class="d-flex justify-content-start align-items-center gap-3">
+    <h1 class="title">Users</h1>
+    <button class="btn btn-primary btn-circle">
+      <span class="material-symbols-outlined">add</span>
+    </button>
+  </div>
+  <app-search [title]="'Search by user name or email...'"></app-search>
+</header>
+<div class="table-responsive">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-7 w-100 bg-white rounded shadow">
+
+        <!-- Fixed header table-->
+        <div class="table-responsive">
+          <table class="table table-fixed">
+            <thead>
+            <tr>
+              <th scope="col" class="col-1">#</th>
+              <th scope="col" class="col-4">Name</th>
+              <th scope="col" class="col-4">Email</th>
+              <th scope="col" class="col-3">Profile</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of users">
+              <td scope="row" class="col-1">{{ user.id }}</td>
+              <td class="col-4">{{ user.name }}</td>
+              <td class="col-4">{{ user.email }}</td>
+              <td class="col-3">{{ user.profile}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div><!-- End -->
+      </div>
+
