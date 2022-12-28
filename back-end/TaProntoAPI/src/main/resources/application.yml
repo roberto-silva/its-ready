@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 jwt:
@@ -14,4 +14,4 @@ jwt:
   token:
     expiration-minutes: 1
   refresh-token:
-    expiration-minutes: 60
+    expiration-minutes: 1440

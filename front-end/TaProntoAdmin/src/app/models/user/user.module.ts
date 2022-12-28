@@ -5,6 +5,8 @@ import {UserFormComponent} from './component/user-form/user-form.component';
 import {RouterModule} from "@angular/router";
 import {USER_ROUTE} from "./user.route";
 import {SharedModule} from "../../shared/shared.module";
+import {ReactiveFormsModule} from "@angular/forms";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 
 @NgModule({
@@ -12,11 +14,13 @@ import {SharedModule} from "../../shared/shared.module";
     UserListComponent,
     UserFormComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(USER_ROUTE),
-        SharedModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(USER_ROUTE),
+    SharedModule,
+    ReactiveFormsModule,
+    NgSelectModule
+  ]
 })
 export class UserModule {
 }

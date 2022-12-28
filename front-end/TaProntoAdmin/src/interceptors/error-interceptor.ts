@@ -19,12 +19,19 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError((error: any) => {
+      console.log(error);
       if (!this.authService.refreshTokenExpired() && error.status === 403 && this.authService.getRefreshTokenInStorage()) {
         return this.refreshToken(request, next);
       }
-      if (this.authService.refreshTokenExpired() || error.status === 401) {
+
+      if (this.authService.refreshTokenExpired()) {
         this.loginService.logout();
         this.toastrService.info("User disconnected due to inactivity, to continue using the application, log in again by entering the login and password.");
+      }
+
+      if (error.status === 401) {
+        this.loginService.logout();
+        this.toastrService.warning("Unauthenticated user, to continue using the app, login again by entering login and password.");
       }
       return throwError(error);
     }));

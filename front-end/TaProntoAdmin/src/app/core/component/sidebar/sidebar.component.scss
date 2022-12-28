@@ -1,9 +1,9 @@
 .sidebar {
   width: var(--sidebar-width);
-  height: 100vh;
+  height: 100%;
   background-color: var(--ligth-grey);
   border-bottom-right-radius: 50px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
   position: sticky;
   z-index: 2;
 
@@ -20,6 +20,7 @@
     justify-content: start;
     gap: 20px;
     align-items: center;
+    padding: 5px 0;
   }
 
   a:hover {
@@ -34,15 +35,12 @@
     list-style-type: none;
   }
 
-  li:last-child {
-    bottom: 0;
-  }
-
 }
 
 .sidebar:hover {
   --sidebar-width: 200px;
   animation: fadeIn 0.5s;
+  height: 100vh;
 
   .logo {
     display: inherit;
@@ -58,10 +56,10 @@
   .logout {
     margin-top: 50px;
   }
-
 }
 
 .sidebar:not(:hover) {
+
   .nav-links {
     width: auto;
     height: 100vh;

@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 @import "src/assets/theme/variables";
 @import "assets/theme/main";
-
 @import "assets/theme/components/buttons";
 @import "src/assets/theme/components/tables";
+@import "src/assets/theme/components/ng-select";
 

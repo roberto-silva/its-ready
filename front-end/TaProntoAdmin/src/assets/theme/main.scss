@@ -7,13 +7,13 @@ button.btn.btn-primary {
   border: var(--bs-white) 2px solid;
 }
 
-button.btn.btn-primary:focus{
+button.btn.btn-primary:focus {
   background-color: var(--teal-dark);
   color: white;
 }
 
 label {
-  margin-left: 10px ;
+  margin-left: 10px;
   color: white;
 }
 
@@ -25,6 +25,10 @@ h1 {
 input.form-control {
   background-color: var(--teal);
   color: white;
+
+}
+.form-floating>.form-control, .form-floating>.form-control-plaintext, .form-floating>.form-select {
+  height: 64px;
 }
 
 input.form-control:focus {
@@ -32,16 +36,17 @@ input.form-control:focus {
   color: white;
 }
 
-a{
+a {
   color: var(--teal-dark);
   font-size: 18px;
 }
+
 header {
   background-color: var(--ligth-grey);
   border-radius: 14px;
   padding: 10px 20px;
 
-  .btn.btn-primary  {
+  .btn.btn-primary {
     border: none;
     font-weight: bolder;
   }
@@ -56,4 +61,27 @@ header {
 .sub-title {
   font-size: 14px;
   font-weight: 700;
+}
+
+section.form-section {
+  background-color: var(--ligth-grey);
+  padding: 20px;
+  height: fit-content;
+  border-radius: 8px;
+
+  .form-label-section {
+    color: var(--teal);
+    font-weight: 700;
+  }
+}
+
+.row {
+  margin: 0;
+}
+
+.form-section-border {
+  border: 2px var(--teal) dotted;
+}
+.bg-primary {
+  background-color: var(--teal) !important;
 }

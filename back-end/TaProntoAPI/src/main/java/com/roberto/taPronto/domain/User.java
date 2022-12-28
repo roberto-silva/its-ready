@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 
 
 @Entity
-@Table(name = "user_account", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"cpf", "email"})
-})
+@Table(name = "user_account")
 @Getter
 @Setter
 @ToString
@@ -33,13 +31,13 @@ public class User implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "cpf")
+    @Column(name = "cpf", unique = true)
     private String cpf;
 
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @OneToOne(cascade = CascadeType.ALL)
