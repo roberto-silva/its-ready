@@ -7,6 +7,7 @@ import {USER_ROUTE} from "./user.route";
 import {SharedModule} from "../../shared/shared.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {NgbDropdownModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {NgSelectModule} from "@ng-select/ng-select";
     RouterModule.forChild(USER_ROUTE),
     SharedModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    NgbDropdownModule
   ]
 })
 export class UserModule {

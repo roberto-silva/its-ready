@@ -20,19 +20,21 @@ export const USER_ROUTE: Routes = [
     }
   },
   {
-    path: 'edit',
+    path: ':id/edit',
     component: UserFormComponent,
     data: {
       authorities: [],
       pageTitle: 'Edit user',
+      editMode: true
     }
   },
   {
-    path: 'view',
+    path: ':id/view',
     component: UserFormComponent,
     data: {
       authorities: [],
       pageTitle: 'View user',
+      viewMode: true
     }
   }
 ];

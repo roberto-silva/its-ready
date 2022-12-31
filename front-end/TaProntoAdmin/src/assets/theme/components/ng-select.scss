@@ -7,6 +7,11 @@
     border-radius: 8px;
   }
 }
+.ng-select.custom.ng-select-disabled {
+  .ng-select-container  {
+    background-color: var(--grey);
+  }
+}
 
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
   position: relative;

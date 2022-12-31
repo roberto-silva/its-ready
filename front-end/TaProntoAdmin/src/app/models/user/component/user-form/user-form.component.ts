@@ -4,7 +4,7 @@ import {UserService} from "../../user.service";
 import {UserModel} from "../../user-model";
 import {ToastrService} from "ngx-toastr";
 import {PROFILES} from "../../../../app.constants";
-import {Router} from "@angular/router";
+import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-form',
@@ -25,22 +25,39 @@ export class UserFormComponent implements OnInit {
       district: ['', Validators.required],
       street: ['', Validators.required],
       referencePoint: ['', Validators.required],
-      activated: [true,Validators.required]
+      activated: [true, Validators.required]
     }),
     password: ['', Validators.required],
     profile: ['', Validators.required],
     activated: [true, Validators.required]
   });
-  profiles: {name: string, cod: number} [] = PROFILES;
+  profiles: { name: string, cod: number } [] = PROFILES;
+  viewMode: boolean = false;
+  editMode: boolean = false;
 
   constructor(private readonly formBuilder: FormBuilder,
               private readonly userService: UserService,
               private readonly toastrService: ToastrService,
-              private readonly router: Router
+              private readonly router: Router,
+              private readonly route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(value => {
+      const userId = value['id'];
+      this.userService.findById(userId).subscribe(result => {
+        const user = new UserModel(result);
+        this.formGroup.patchValue(user);
+      })
+    });
+    this.route.data.subscribe(value => {
+      this.viewMode = value['viewMode'];
+      if(this.viewMode) {
+        this.formGroup.disable();
+      }
+      this.editMode = value['editMode'];
+    });
   }
 
   save() {

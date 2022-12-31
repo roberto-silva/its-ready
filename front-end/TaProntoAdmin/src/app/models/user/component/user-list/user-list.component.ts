@@ -3,6 +3,9 @@ import {UserService} from "../../user.service";
 import {UserModel} from "../../user-model";
 import {Router} from "@angular/router";
 import {PROFILES} from "../../../../app.constants";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ActionModalComponent} from "../../../../shared/components/action-modal/action-modal.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-user-list',
@@ -18,14 +21,14 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private readonly userService: UserService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly ngbModal: NgbModal,
+    private readonly toastrService: ToastrService
   ) {
   }
 
   ngOnInit(): void {
-    this.userService.getAll(this.getParams()).subscribe((value: any) => {
-      this.users = value.body.content || [];
-    });
+    this.loadAll();
   }
 
   private getParams() {
@@ -43,5 +46,27 @@ export class UserListComponent implements OnInit {
 
   getProfiles(profiles: number[]): string [] {
     return PROFILES.filter(value => profiles.includes(value.cod)).map(value => value.name) || [];
+  }
+
+  openDeleteModal(user: UserModel) {
+    const modalRef = this.ngbModal.open(ActionModalComponent);
+    modalRef.componentInstance.title = "Delete User"
+    modalRef.componentInstance.body = "By clicking confirm the user will be permanently deleted."
+    modalRef.result.then(value => {
+      if(value){
+        this.userService.delete(user.id).subscribe(() => {
+          this.toastrService.success("User deleted successfully");
+          this.loadAll();
+        }, error => {
+          this.toastrService.error(error.error.message);
+        });
+      }
+    })
+  }
+
+  private loadAll() {
+    this.userService.getAll(this.getParams()).subscribe((value: any) => {
+      this.users = value.body.content || [];
+    });
   }
 }

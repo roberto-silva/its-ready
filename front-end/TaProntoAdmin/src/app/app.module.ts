@@ -15,6 +15,7 @@ import {AuthInterceptorProvider} from "../interceptors/auth-interceptor";
 import { HomeComponent } from './models/home/component/home.component';
 import {UserAutenticated} from "../services/user-autenticated";
 import { SidebarComponent } from './core/component/sidebar/sidebar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export const TOAST_PROVIDER = {provide: ToastrService, useClass: ToastrService};
 @NgModule({
@@ -32,7 +33,8 @@ export const TOAST_PROVIDER = {provide: ToastrService, useClass: ToastrService};
     ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule
   ],
   providers: [
     HttpClientModule,

@@ -18,24 +18,45 @@
             <thead>
             <tr>
               <th scope="col" class="col-1">#</th>
-              <th scope="col" class="col-4">Name</th>
+              <th scope="col" class="col-3">Name</th>
               <th scope="col" class="col-4">Email</th>
               <th scope="col" class="col-3">Profile</th>
+              <th scope="col" class="col-1 d-flex justify-content-end">Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let user of users">
               <td scope="row" class="col-1">{{ user.id }}</td>
-              <td class="col-4">{{ user.name }}</td>
-              <td class="col-4">{{ user.email }}</td>
-              <td class="col-3 ">
+              <td class="col-3 text-truncate">{{ user.name }}</td>
+              <td class="col-4 text-truncate">{{ user.email }}</td>
+              <td class="col-3">
                 <span *ngFor="let profile of  getProfiles(user?.profile || [])" class="badge rounded-pill bg-primary me-2">
                   {{profile}}
                 </span>
+              </td>
+              <td class="col-1 d-flex justify-content-end align-items-center action-column">
+                <ng-container [ngTemplateOutlet]="dropdown"
+                              [ngTemplateOutletContext]="{ user: user }">
+                </ng-container>
               </td>
             </tr>
             </tbody>
           </table>
         </div><!-- End -->
       </div>
+    </div>
+  </div>
+</div>
 
+<ng-template #dropdown let-user="user">
+  <div ngbDropdown container="body">
+    <button type="button" class="btn border-0 btn-sm" ngbDropdownToggle>
+      <span class="material-symbols-outlined">more_vert</span>
+    </button>
+    <div ngbDropdownMenu>
+      <button ngbDropdownItem [routerLink]="user.id + '/view'">View</button>
+      <button ngbDropdownItem [disabled]="user.id == 1"  [routerLink]="user.id + '/edit'">Edit</button>
+      <button ngbDropdownItem [disabled]="user.id == 1" (click)="openDeleteModal(user)">Delete</button>
+    </div>
+  </div>
+</ng-template>

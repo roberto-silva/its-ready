@@ -25,8 +25,12 @@ h1 {
 input.form-control {
   background-color: var(--indigo);
   color: white;
-
 }
+
+input.form-control:disabled {
+  background-color: var(--grey);
+}
+
 .form-floating>.form-control, .form-floating>.form-control-plaintext, .form-floating>.form-select {
   height: 64px;
 }
@@ -83,6 +87,7 @@ section.form-section {
 .form-section-border {
   border: 2px var(--indigo) dotted;
 }
+
 .bg-primary {
   background-color: var(--indigo) !important;
 }
