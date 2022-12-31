@@ -10,7 +10,7 @@
 <div class="table-responsive">
   <div class="container px-0 py-5">
     <div class="row">
-      <div class="col-lg-7 w-100 bg-white rounded shadow">
+      <div class="col-lg-7 w-100 bg-white rounded shadow p-0">
 
         <!-- Fixed header table-->
         <div class="table-responsive">
@@ -29,7 +29,10 @@
               <td class="col-4">{{ user.name }}</td>
               <td class="col-4">{{ user.email }}</td>
               <td class="col-3 ">
-                <span *ngFor="let profile of  getProfiles(user?.profile || [])" class="badge rounded-pill bg-primary mx-2">{{profile}}</span></td>
+                <span *ngFor="let profile of  getProfiles(user?.profile || [])" class="badge rounded-pill bg-primary me-2">
+                  {{profile}}
+                </span>
+              </td>
             </tr>
             </tbody>
           </table>

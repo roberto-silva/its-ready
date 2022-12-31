@@ -1,14 +1,14 @@
 body {
-  background-color: var(--teal-ligth);
+  background-color: var(--super-ligth-grey);
 }
 
 button.btn.btn-primary {
-  background-color: var(--teal);
+  background-color: var(--indigo);
   border: var(--bs-white) 2px solid;
 }
 
 button.btn.btn-primary:focus {
-  background-color: var(--teal-dark);
+  background-color: var(--indigo-dark);
   color: white;
 }
 
@@ -18,12 +18,12 @@ label {
 }
 
 h1 {
-  color: var(--teal);
+  color: var(--indigo);
   font-weight: bolder;
 }
 
 input.form-control {
-  background-color: var(--teal);
+  background-color: var(--indigo);
   color: white;
 
 }
@@ -32,17 +32,18 @@ input.form-control {
 }
 
 input.form-control:focus {
-  background-color: var(--teal-dark);
+  background-color: var(--indigo-dark);
   color: white;
 }
 
 a {
-  color: var(--teal-dark);
+  color: var(--indigo-dark);
   font-size: 18px;
 }
 
 header {
-  background-color: var(--ligth-grey);
+  background-color: var(--super-ligth-grey);
+  border: 2px var(--indigo) dotted;
   border-radius: 14px;
   padding: 10px 20px;
 
@@ -70,7 +71,7 @@ section.form-section {
   border-radius: 8px;
 
   .form-label-section {
-    color: var(--teal);
+    color: var(--indigo);
     font-weight: 700;
   }
 }
@@ -80,8 +81,8 @@ section.form-section {
 }
 
 .form-section-border {
-  border: 2px var(--teal) dotted;
+  border: 2px var(--indigo) dotted;
 }
 .bg-primary {
-  background-color: var(--teal) !important;
+  background-color: var(--indigo) !important;
 }

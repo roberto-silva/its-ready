@@ -24,3 +24,8 @@
     display: block;
   }
 }
+
+.table-fixed thead > tr > th {
+  background-color: var(--indigo);
+  color: var(--ligth-grey);
+}
