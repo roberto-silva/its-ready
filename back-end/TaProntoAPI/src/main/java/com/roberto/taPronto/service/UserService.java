@@ -1,62 +1,72 @@
 package com.roberto.taPronto.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.roberto.taPronto.domain.Address;
+import com.roberto.taPronto.domain.User;
+import com.roberto.taPronto.domain.enums.Profile;
+import com.roberto.taPronto.dto.UserDTO;
+import com.roberto.taPronto.repository.UserRepository;
+import com.roberto.taPronto.security.UserSpringSecurity;
+import javassist.tools.rmi.ObjectNotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.roberto.taPronto.dto.UserDTO;
-import com.roberto.taPronto.model.User;
-import com.roberto.taPronto.repository.UserRepository;
-
-import javassist.tools.rmi.ObjectNotFoundException;
+import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
-	@Autowired
-	private UserRepository repository;
+    private UserRepository repository;
+    private BCryptPasswordEncoder passwordEncoder;
 
-	public User findById(Integer id) throws ObjectNotFoundException {
-		Optional<User> user = repository.findById(id);
-		return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! Id:" + id));
-	}
+    public User findById(Integer id) throws ObjectNotFoundException {
 
-	public List<User> findAll() {
-		return repository.findAll();
-	}
+        Optional<User> user = repository.findById(id);
+        return user.orElseThrow(() -> new ObjectNotFoundException("User not found!"));
+    }
 
-	public User create(UserDTO user) {
-		return repository.save(new User(user));
-	}
+    public boolean existsByCPF(String cpf) {
+        return repository.existsByCpf(cpf);
+    }
 
-	public User update(User obj, Integer id) throws ObjectNotFoundException {
-		User currentUser = this.findById(id);
+    public Page<User> findAll(Pageable pageable, String search) {
+        return repository.findAllUserByNameContainsIgnoreCase(pageable, search);
+    }
 
-		currentUser.setName(obj.getName());
-		currentUser.setPhone(obj.getPhone());
-		currentUser.setAddress(obj.getAddress());
-		currentUser.setCpf(obj.getCpf());
-		currentUser.setRole(obj.getRole());
+    public User create(UserDTO userDTO) {
+        User newUser = new User();
+        BeanUtils.copyProperties(userDTO, newUser);
+        newUser.setAddress(new Address(userDTO.getAddress()));
+        newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        newUser.addProfile(Profile.COSTUMER);
+        return repository.save(newUser);
+    }
 
-		return this.repository.save(currentUser);
-	}
+    public User update(UserDTO userDTO, Integer id) throws ObjectNotFoundException {
 
-	public Page<User> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repository.findAll(pageRequest);
-	}
+        User currentUser = this.findById(id);
+        BeanUtils.copyProperties(userDTO, currentUser);
+        currentUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        return this.repository.save(currentUser);
+    }
 
-	public void delete(Integer id) throws ObjectNotFoundException {
-		this.repository.delete(this.findById(id));
-	}
+    public void delete(Integer id) throws ObjectNotFoundException {
+
+        this.repository.delete(this.findById(id));
+    }
+
+    public static UserSpringSecurity getUserLogged() {
+        try {
+            return (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
 
 }

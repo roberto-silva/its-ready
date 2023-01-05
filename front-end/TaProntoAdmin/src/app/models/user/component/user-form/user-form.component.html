@@ -1,0 +1,82 @@
+<section class="form-section">
+  <h1 class="title" *ngIf="!viewMode">{{!editMode? 'User registration' : 'User update'}}</h1>
+  <h1 class="title" *ngIf="viewMode">{{'User view'}}</h1>
+
+  <form [formGroup]="formGroup" (ngSubmit)="save()">
+    <div class="row form-section-border py-3 mb-3">
+      <label class="form-label-section mb-2">User profile</label>
+      <div class="mb-3 row">
+        <div class="form-floating col-6">
+          <input type="text" class="form-control" id="inputName" formControlName="name" placeholder="Name">
+          <label for="inputName">Name</label>
+        </div>
+        <div class="form-floating col-3">
+          <input type="text" class="form-control" id="inputCPF" formControlName="cpf" placeholder="CPF">
+          <label for="inputCPF">CPF</label>
+        </div>
+
+        <div class="form-floating col-3">
+          <input type="tel" class="form-control" id="inputPhone" formControlName="phone" placeholder="phone">
+          <label for="inputPhone">Phone</label>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="form-floating col-4">
+          <input type="email" class="form-control" id="inputEmail" formControlName="email" placeholder="email">
+          <label for="inputEmail">Email</label>
+        </div>
+
+        <div class="form-floating col-4">
+          <input type="password" class="form-control" id="inputPassword" formControlName="password"
+                 placeholder="Password">
+          <label for="inputPassword">Password</label>
+        </div>
+
+        <div class="form-floating col-4">
+          <ng-select [items]="profiles"
+                     [multiple]="true"
+                     [addTag]="true"
+                     bindLabel="name"
+                     bindValue="cod"
+                     [formControlName]="'profile'"
+                     class="custom"
+                     id="inputProfile"
+                     placeholder="Profile">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row form-section-border py-3" [formGroupName]="'address'">
+      <label class="form-label-section mb-2">Address</label>
+      <div class="form-floating col-4">
+        <input type="text" class="form-control" id="inputCep" formControlName="cep" placeholder="CEP">
+        <label for="inputCep">CEP</label>
+      </div>
+      <div class="form-floating col-4">
+        <input type="text" class="form-control" id="inputCity" formControlName="city" placeholder="city">
+        <label for="inputCity">City</label>
+      </div>
+      <div class="form-floating col-4">
+        <input type="text" class="form-control" id="inputDistrict" formControlName="district" placeholder="district">
+        <label for="inputDistrict">District</label>
+      </div>
+
+      <div class="form-floating col-4 mt-3">
+        <input type="text" class="form-control" id="inputStreet" formControlName="street" placeholder="street">
+        <label for="inputStreet">Street</label>
+      </div>
+      <div class="form-floating col-8 mt-3">
+        <input type="text" class="form-control" id="inputReferencePoint" formControlName="referencePoint"
+               placeholder="referencePoint">
+        <label for="inputReferencePoint">Reference point</label>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end w-100 mt-3" *ngIf="!viewMode">
+      <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-lg">Save</button>
+    </div>
+  </form>
+
+
+</section>

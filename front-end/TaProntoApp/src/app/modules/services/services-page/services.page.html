@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-capitalize">Services</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ng-template ngFor let-service [ngForOf]="services" let-i="index">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{service.name}}</ion-card-title>
+        <ion-card-subtitle>{{service.costumer}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{service.description}}
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+
+</ion-content>

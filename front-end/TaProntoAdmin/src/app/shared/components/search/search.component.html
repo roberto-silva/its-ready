@@ -1,0 +1,11 @@
+<div class="rounded rounded-pill shadow-sm search-container">
+  <div class="input-group">
+    <input [(ngModel)]="value" (change)="emitSearchEvent()" type="text" [placeholder]="title"
+           aria-describedby="button-addon1" class="form-control border-0 rounded-pill text-white">
+    <div class="input-group-append">
+      <button id="button-addon1" type="submit" class="btn btn-link text-white">
+        <span class="material-symbols-outlined">search</span>
+      </button>
+    </div>
+  </div>
+</div>

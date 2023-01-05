@@ -1,0 +1,32 @@
+.search-container {
+  background-color: var(--indigo);
+  color: white;
+  min-width: 300px;
+
+  button {
+    span {
+      color: var(--gray);
+    }
+  }
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+.form-control-underlined {
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-radius: 0;
+  padding-left: 0;
+  color: #00ABB3;
+}
+
+[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+::placeholder {
+  color: white;
+}
