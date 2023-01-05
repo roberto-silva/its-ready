@@ -1,6 +1,6 @@
-# It's ready
-Application made with Spring Boot and Ionic to manage services. The program is intended to be a service manager application.
-  * Main features:
+# Its's Ready
+Application made with Spring Boot, Angular (administrative module) and Flutter (client and collaborator module)
+  * Main functionalities:
     * Manage orders, budget and services performed
-    * Register customers and system users (employees)
-    * Inform the customer when the service has been completed
+    * Register customers and system users (collaborators)
+    * Inform the client when the service has been completed
