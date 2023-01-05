@@ -26,8 +26,9 @@ public class UserController {
 
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATTENDANT')")
-	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
-		return ResponseEntity.ok().body(this.service.findAll(pageable).map(UserDTO:: new));
+	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable,
+												 @RequestParam String search) {
+		return ResponseEntity.ok().body(this.service.findAll(pageable, search).map(UserDTO:: new));
 	}
 
 	@GetMapping(value = "/{id}")

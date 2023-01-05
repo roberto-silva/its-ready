@@ -72,6 +72,7 @@ export class UserListComponent implements OnInit {
 
   setSearch(search?: string) {
     this.search = search || '';
+    this.page = 0;
     this.loadAll();
   }
 }
