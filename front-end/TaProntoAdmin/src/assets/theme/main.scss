@@ -1,0 +1,93 @@
+body {
+  background-color: var(--super-ligth-grey);
+}
+
+button.btn.btn-primary {
+  background-color: var(--indigo);
+  border: var(--bs-white) 2px solid;
+}
+
+button.btn.btn-primary:focus {
+  background-color: var(--indigo-dark);
+  color: white;
+}
+
+label {
+  margin-left: 10px;
+  color: white;
+}
+
+h1 {
+  color: var(--indigo);
+  font-weight: bolder;
+}
+
+input.form-control {
+  background-color: var(--indigo);
+  color: white;
+}
+
+input.form-control:disabled {
+  background-color: var(--grey);
+}
+
+.form-floating>.form-control, .form-floating>.form-control-plaintext, .form-floating>.form-select {
+  height: 64px;
+}
+
+input.form-control:focus {
+  background-color: var(--indigo-dark);
+  color: white;
+}
+
+a {
+  color: var(--indigo-dark);
+  font-size: 18px;
+}
+
+header {
+  background-color: var(--super-ligth-grey);
+  border: 2px var(--indigo) dotted;
+  border-radius: 14px;
+  padding: 10px 20px;
+
+  .btn.btn-primary {
+    border: none;
+    font-weight: bolder;
+  }
+}
+
+.title {
+  font-size: 34px;
+  font-weight: bolder;
+}
+
+
+.sub-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+section.form-section {
+  background-color: var(--ligth-grey);
+  padding: 20px;
+  height: fit-content;
+  border-radius: 8px;
+
+  .form-label-section {
+    color: var(--indigo);
+    font-weight: 700;
+  }
+}
+
+.row {
+  margin: 0;
+}
+
+.form-section-border {
+  border: 2px var(--indigo) dotted;
+}
+
+.bg-primary {
+  background-color: var(--indigo) !important;
+}
