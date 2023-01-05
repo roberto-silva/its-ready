@@ -5,7 +5,7 @@
       <span class="material-symbols-outlined">add</span>
     </button>
   </div>
-  <app-search [title]="'Search by user name or email...'"></app-search>
+  <app-search [title]="'Search by user name or email...'" (search)="setSearch($event)"></app-search>
 </header>
 <div class="table-responsive">
   <div class="container px-0 py-5">
@@ -30,7 +30,8 @@
               <td class="col-3 text-truncate">{{ user.name }}</td>
               <td class="col-4 text-truncate">{{ user.email }}</td>
               <td class="col-3">
-                <span *ngFor="let profile of  getProfiles(user?.profile || [])" class="badge rounded-pill bg-primary me-2">
+                <span *ngFor="let profile of  getProfiles(user?.profile || [])"
+                      class="badge rounded-pill bg-primary me-2">
                   {{profile}}
                 </span>
               </td>
@@ -55,7 +56,7 @@
     </button>
     <div ngbDropdownMenu>
       <button ngbDropdownItem [routerLink]="user.id + '/view'">View</button>
-      <button ngbDropdownItem [disabled]="user.id == 1"  [routerLink]="user.id + '/edit'">Edit</button>
+      <button ngbDropdownItem [disabled]="user.id == 1" [routerLink]="user.id + '/edit'">Edit</button>
       <button ngbDropdownItem [disabled]="user.id == 1" (click)="openDeleteModal(user)">Delete</button>
     </div>
   </div>

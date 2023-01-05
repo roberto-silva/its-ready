@@ -41,7 +41,7 @@ export class UserListComponent implements OnInit {
   }
 
   goToRegistrationForm() {
-    this.router.navigate(['users/new']);
+    this.router.navigate(['users/new']).then();
   }
 
   getProfiles(profiles: number[]): string [] {
@@ -68,5 +68,10 @@ export class UserListComponent implements OnInit {
     this.userService.getAll(this.getParams()).subscribe((value: any) => {
       this.users = value.body.content || [];
     });
+  }
+
+  setSearch(search?: string) {
+    this.search = search || '';
+    this.loadAll();
   }
 }
