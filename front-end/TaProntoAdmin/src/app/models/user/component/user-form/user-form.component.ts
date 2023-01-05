@@ -46,10 +46,12 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(value => {
       const userId = value['id'];
-      this.userService.findById(userId).subscribe(result => {
-        const user = new UserModel(result);
-        this.formGroup.patchValue(user);
-      })
+      if(!!userId) {
+        this.userService.findById(userId).subscribe(result => {
+          const user = new UserModel(result);
+          this.formGroup.patchValue(user);
+        })
+      }
     });
     this.route.data.subscribe(value => {
       this.viewMode = value['viewMode'];
