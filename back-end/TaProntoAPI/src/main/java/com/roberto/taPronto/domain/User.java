@@ -3,7 +3,6 @@ package com.roberto.taPronto.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.roberto.taPronto.domain.enums.Profile;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +19,7 @@ import java.util.stream.Collectors;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode()
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,20 +63,7 @@ public class User implements Serializable {
         this.profile.add(profile.getCod());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    public boolean hasHole(Profile profile){
+    public boolean hasHole(Profile profile) {
         return this.profile.stream().anyMatch(integer -> Objects.equals(integer, profile.getCod()));
     }
 }

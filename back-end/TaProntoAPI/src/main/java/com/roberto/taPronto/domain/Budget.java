@@ -1,19 +1,19 @@
 package com.roberto.taPronto.domain;
 
-import com.roberto.taPronto.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
-@Table(name="budget")
+@Table(name = "budget")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Budget {
+public class Budget implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,12 +29,20 @@ public class Budget {
     @JoinColumn(name = "collaborator_id")
     private User collaborator;
 
-    @Column(name="budget_date")
+    @Column(name = "budget_date")
     private Instant budgetDate;
 
-    @Column(name="approval")
+    @Column(name = "approval")
     private Boolean approval;
 
-    @Column(name="budget_approval_date")
+    @Column(name = "budget_approval_date")
     private Instant budgetApprovalDate;
+
+    public void setApproval(Boolean approval) {
+        this.approval = approval;
+
+        if (approval) {
+            this.budgetApprovalDate = Instant.now();
+        }
+    }
 }

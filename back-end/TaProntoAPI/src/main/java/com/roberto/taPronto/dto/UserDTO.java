@@ -51,8 +51,6 @@ public class UserDTO {
 
 	private boolean activated;
 
-
-
 	public UserDTO(User user){
 		this.id = user.getId();
 		this.name = user.getName();
