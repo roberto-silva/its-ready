@@ -41,13 +41,14 @@ public class BudgetService {
         Budget currentBudget = this.findById(id);
         BeanUtils.copyProperties(budgetDTO, currentBudget, "approval");
         currentBudget.setApproval(budgetDTO.getApproval());
+        currentBudget = this.repository.save(currentBudget);
 
         if (currentBudget.getApproval()) {
-            var task = TaskDTO.builder().budget(currentBudget).build();
+            var task = TaskDTO.builder().budget(new BudgetDTO(currentBudget)).build();
             taskService.create(task);
         }
 
-        return this.repository.save(currentBudget);
+        return currentBudget;
     }
 
 }
