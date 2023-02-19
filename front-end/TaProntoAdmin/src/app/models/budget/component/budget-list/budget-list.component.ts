@@ -26,9 +26,9 @@ export class BudgetListComponent extends BaseListComponent<BudgetModel> implemen
   ngOnInit(): void {
     this.loadAll();
     super.deleteModalSettings = {
-      title: 'Delete User',
-      body: 'By clicking confirm the user will be permanently deleted.',
-      successDeleteMessage: 'User deleted successfully'
+      title: 'Delete budget',
+      body: 'By clicking confirm the budget will be permanently deleted.',
+      successDeleteMessage: 'Budget deleted successfully'
     }
 
   }

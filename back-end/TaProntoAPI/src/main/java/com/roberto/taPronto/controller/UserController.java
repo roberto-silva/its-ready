@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('COSTUMER')")
-    public ResponseEntity<User> findById(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<User> findById(@PathVariable Long id) throws ObjectNotFoundException {
         User obj = this.service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
@@ -56,14 +56,14 @@ public class UserController {
 
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<UserDTO> update(@RequestBody @Valid UserDTO objDto, @PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<UserDTO> update(@RequestBody @Valid UserDTO objDto, @PathVariable Long id) throws ObjectNotFoundException {
         var user = this.service.update(objDto, id);
         return ResponseEntity.ok().body(new UserDTO(user));
     }
 
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException {
         this.service.delete(id);
         return ResponseEntity.noContent().build();
     }

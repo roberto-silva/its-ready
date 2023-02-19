@@ -17,8 +17,8 @@ export class BudgetFormComponent implements OnInit {
 
   formGroup: FormGroup = this.formBuilder.group({
     id: [null, []],
-    client: ['', Validators.required],
-    collaborator: ['', Validators.required],
+    clientId: ['', Validators.required],
+    collaboratorId: ['', Validators.required],
     budgetDate: [],
     approval: [],
     budgetApprovalDate: []
@@ -62,7 +62,7 @@ export class BudgetFormComponent implements OnInit {
   }
 
   save() {
-    this.budgetService.create(new BudgetModel(this.formGroup.value)).subscribe(() => {
+    this.budgetService.create(this.formGroup.value).subscribe(() => {
       this.router.navigate(['/users']).then();
       this.toastrService.success("Budget created successfully");
     }, error => {

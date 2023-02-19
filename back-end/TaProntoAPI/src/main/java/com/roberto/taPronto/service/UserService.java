@@ -26,7 +26,7 @@ public class UserService {
     private UserRepository repository;
     private BCryptPasswordEncoder passwordEncoder;
 
-    public User findById(Integer id) throws ObjectNotFoundException {
+    public User findById(Long id) throws ObjectNotFoundException {
 
         Optional<User> user = repository.findById(Long.valueOf(id));
         return user.orElseThrow(() -> new ObjectNotFoundException("User not found!"));
@@ -49,7 +49,7 @@ public class UserService {
         return repository.save(newUser);
     }
 
-    public User update(UserDTO userDTO, Integer id) throws ObjectNotFoundException {
+    public User update(UserDTO userDTO, Long id) throws ObjectNotFoundException {
 
         User currentUser = this.findById(id);
         BeanUtils.copyProperties(userDTO, currentUser);
@@ -57,7 +57,7 @@ public class UserService {
         return this.repository.save(currentUser);
     }
 
-    public void delete(Integer id) throws ObjectNotFoundException {
+    public void delete(Long id) throws ObjectNotFoundException {
 
         this.repository.delete(this.findById(id));
     }

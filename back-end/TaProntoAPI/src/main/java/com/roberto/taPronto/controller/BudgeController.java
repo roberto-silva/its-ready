@@ -2,6 +2,7 @@ package com.roberto.taPronto.controller;
 
 import com.roberto.taPronto.domain.Budget;
 import com.roberto.taPronto.dto.BudgetDTO;
+import com.roberto.taPronto.dto.SimplifieldBudgetDTO;
 import com.roberto.taPronto.service.BudgetService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class BudgeController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Void> insert(@RequestBody @Valid BudgetDTO objDto) {
+    public ResponseEntity<Void> insert(@RequestBody @Valid SimplifieldBudgetDTO objDto) throws ObjectNotFoundException {
         Budget obj = service.create(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();

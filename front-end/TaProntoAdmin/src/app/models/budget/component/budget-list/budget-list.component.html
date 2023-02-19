@@ -9,23 +9,27 @@
           <table class="table table-fixed">
             <thead>
             <tr>
-              <th scope="col" class="col-1">#</th>
-              <th scope="col" class="col-3">Collaborator</th>
-              <th scope="col" class="col-4">Client</th>
-              <th scope="col" class="col-3">Approval</th>
-              <th scope="col" class="col-1 d-flex justify-content-end">Actions</th>
+              <th class="col-1" scope="col">#</th>
+              <th class="col-4" scope="col">Collaborator</th>
+              <th class="col-4" scope="col">Client</th>
+              <th class="col-2" scope="col">Approval</th>
+              <th class="col-1 d-flex justify-content-end" scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
             <ng-container *ngIf="!!items.length">
               <tr *ngFor="let budget of items">
-                <td scope="row" class="col-1">{{ budget.id }}</td>
+                <td class="col-1" scope="row">{{ budget.id }}</td>
                 <td class="col-4 text-truncate">{{ budget.collaborator?.name }}</td>
                 <td class="col-4 text-truncate">{{ budget.client?.name }}</td>
-                <td class="col-4 text-truncate">{{ budget.approval }}</td>
+                <td class="col-2">
+                  <div class=" badge rounded-pill bg-success" [ngClass]="{'bg-danger':  !budget.approval}">
+                    {{ budget.approval ? 'Approved' : 'Not approved' }}
+                  </div>
+                </td>
                 <td class="col-1 d-flex justify-content-end align-items-center action-column">
-                  <ng-container [ngTemplateOutlet]="dropdown"
-                                [ngTemplateOutletContext]="{ item: budget }">
+                  <ng-container [ngTemplateOutletContext]="{ item: budget }"
+                                [ngTemplateOutlet]="dropdown">
                   </ng-container>
                 </td>
               </tr>
@@ -35,21 +39,22 @@
             </ng-container>
             </tbody>
           </table>
-        </div><!-- End -->
+        </div>
+        <!-- End -->
       </div>
     </div>
   </div>
 </div>
 
 <ng-template #dropdown let-item="item">
-  <div ngbDropdown container="body">
-    <button type="button" class="btn border-0 btn-sm" ngbDropdownToggle>
+  <div container="body" ngbDropdown>
+    <button class="btn border-0 btn-sm" ngbDropdownToggle type="button">
       <span class="material-symbols-outlined">more_vert</span>
     </button>
     <div ngbDropdownMenu>
-      <button ngbDropdownItem [routerLink]="item.id + '/view'">View</button>
-      <button ngbDropdownItem [disabled]="item.id == 1" [routerLink]="item.id + '/edit'">Edit</button>
-      <button ngbDropdownItem [disabled]="item.id == 1" (click)="openDeleteModal(item)">Delete</button>
+      <button [routerLink]="item.id + '/view'" ngbDropdownItem>View</button>
+      <button [disabled]="item.approval" [routerLink]="item.id + '/edit'" ngbDropdownItem>Edit</button>
+      <button (click)="openDeleteModal(item)" [disabled]="item.approval" ngbDropdownItem>Delete</button>
     </div>
   </div>
 </ng-template>
