@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @AllArgsConstructor
-public enum Profile {
+public enum Role {
 
     ADMIN(0, "ROLE_ADMIN"),
     ATTENDANT(1, "ROLE_ATTENDANT"),
@@ -23,8 +23,8 @@ public enum Profile {
         return this.name;
     }
 
-    public static Profile toEnum(Integer cod) {
-        return Arrays.stream(Profile.values()).filter(profile -> Objects.equals(profile.getCod(), cod))
+    public static Role toEnum(Integer cod) {
+        return Arrays.stream(Role.values()).filter(profile -> Objects.equals(profile.getCod(), cod))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Profile not found."));
     }

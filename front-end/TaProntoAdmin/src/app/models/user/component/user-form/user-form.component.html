@@ -4,7 +4,7 @@
 
   <form [formGroup]="formGroup" (ngSubmit)="save()">
     <div class="row form-section-border py-3 mb-3">
-      <label class="form-label-section mb-2">User profile</label>
+      <label class="form-label-section mb-2">User role</label>
       <div class="mb-3 row">
         <div class="form-floating col-6">
           <input type="text" class="form-control" id="inputName" formControlName="name" placeholder="Name">
@@ -38,7 +38,7 @@
                      [addTag]="true"
                      bindLabel="name"
                      bindValue="cod"
-                     [formControlName]="'profile'"
+                     [formControlName]="'role'"
                      class="custom"
                      id="inputProfile"
                      placeholder="Profile">
@@ -46,7 +46,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="row form-section-border py-3" [formGroupName]="'address'">
       <label class="form-label-section mb-2">Address</label>

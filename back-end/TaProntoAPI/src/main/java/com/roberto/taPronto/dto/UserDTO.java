@@ -1,7 +1,8 @@
 package com.roberto.taPronto.dto;
 
 import com.roberto.taPronto.domain.User;
-import com.roberto.taPronto.domain.enums.Profile;
+import com.roberto.taPronto.domain.enums.Role;
+import com.roberto.taPronto.repository.projection.SimplifieldUserProjection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,44 +23,49 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-	private Integer id;
 
-	@NotEmpty(message = "The field is mandatory.")
-	@Size(min = 2, max = 100, message = "User name must be between 2 and 100 characters long.")
-	private String name;
+    private Long id;
 
-	@NotEmpty(message = "The field is mandatory.")
-	@CPF(message = "Invalid cpf format.")
-	private String cpf;
+    @NotEmpty(message = "The field is mandatory.")
+    @Size(min = 2, max = 100, message = "User name must be between 2 and 100 characters long.")
+    private String name;
 
-	@NotEmpty(message = "The field is mandatory.")
-	private Set<Integer> profile = new HashSet<>();
+    @NotEmpty(message = "The field is mandatory.")
+    @CPF(message = "Invalid cpf format.")
+    private String cpf;
 
-	@NotEmpty(message = "The field is mandatory.")
-	private String phone;
+    @NotEmpty(message = "The field is mandatory.")
+    private Set<Integer> profile = new HashSet<>();
 
-	@NotEmpty(message = "The field is mandatory.")
-	@Email(message = "Invalid email format.")
-	private String email;
+    @NotEmpty(message = "The field is mandatory.")
+    private String phone;
 
-	@NotNull(message = "The field is mandatory.")
-	@Valid
-	private AddressDTO address;
+    @NotEmpty(message = "The field is mandatory.")
+    @Email(message = "Invalid email format.")
+    private String email;
 
-	@NotEmpty(message = "The field is mandatory.")
-	private String password;
+    @NotNull(message = "The field is mandatory.")
+    @Valid
+    private AddressDTO address;
 
-	private boolean activated;
+    @NotEmpty(message = "The field is mandatory.")
+    private String password;
 
-	public UserDTO(User user){
-		this.id = user.getId();
-		this.name = user.getName();
-		this.cpf = user.getCpf();
-		this.profile = user.getProfiles().stream().map(Profile::getCod).collect(Collectors.toSet());
-		this.phone = user.getPhone();
-		this.email = user.getEmail();
-		this.address = new AddressDTO(user.getAddress());
-		this.activated = user.isActivated();
+    private boolean activated;
+
+    public UserDTO(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.cpf = user.getCpf();
+        this.profile = user.getProfiles().stream().map(Role::getCod).collect(Collectors.toSet());
+        this.phone = user.getPhone();
+        this.email = user.getEmail();
+        this.address = new AddressDTO(user.getAddress());
+        this.activated = user.isActivated();
+    }
+
+	public UserDTO(SimplifieldUserProjection userProjection) {
+		this.id = userProjection.getId();
+		this.name = userProjection.getName();
 	}
-
 }

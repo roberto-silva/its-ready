@@ -2,7 +2,6 @@ package com.roberto.taPronto.dto;
 
 
 import com.roberto.taPronto.domain.Budget;
-import com.roberto.taPronto.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,10 +19,10 @@ public class BudgetDTO {
     private Integer id;
 
     @NotNull(message = "Client is mandatory.")
-    private User client;
+    private Long clientId;
 
     @NotNull(message = "Collaborator is mandatory.")
-    private User collaborator;
+    private Long collaboratorId;
 
     @NotNull(message = "Budget date is mandatory.")
     private Instant budgetDate;
@@ -33,8 +32,8 @@ public class BudgetDTO {
 
     public BudgetDTO(Budget budget) {
         this.id = budget.getId();
-        this.client = budget.getClient();
-        this.collaborator = budget.getCollaborator();
+        this.clientId = budget.getClient().getId();
+        this.collaboratorId = budget.getCollaborator().getId();
         this.budgetDate = budget.getBudgetDate();
         this.approval = budget.getApproval();
     }

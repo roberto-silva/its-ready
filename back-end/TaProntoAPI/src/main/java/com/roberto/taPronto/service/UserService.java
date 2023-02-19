@@ -2,9 +2,10 @@ package com.roberto.taPronto.service;
 
 import com.roberto.taPronto.domain.Address;
 import com.roberto.taPronto.domain.User;
-import com.roberto.taPronto.domain.enums.Profile;
+import com.roberto.taPronto.domain.enums.Role;
 import com.roberto.taPronto.dto.UserDTO;
 import com.roberto.taPronto.repository.UserRepository;
+import com.roberto.taPronto.repository.projection.SimplifieldUserProjection;
 import com.roberto.taPronto.security.UserSpringSecurity;
 import javassist.tools.rmi.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +28,7 @@ public class UserService {
 
     public User findById(Integer id) throws ObjectNotFoundException {
 
-        Optional<User> user = repository.findById(id);
+        Optional<User> user = repository.findById(Long.valueOf(id));
         return user.orElseThrow(() -> new ObjectNotFoundException("User not found!"));
     }
 
@@ -43,7 +45,7 @@ public class UserService {
         BeanUtils.copyProperties(userDTO, newUser);
         newUser.setAddress(new Address(userDTO.getAddress()));
         newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        newUser.addProfile(Profile.COSTUMER);
+        newUser.addProfile(Role.COSTUMER);
         return repository.save(newUser);
     }
 
@@ -68,4 +70,7 @@ public class UserService {
         }
     }
 
+    public Set<SimplifieldUserProjection> findAllUsersByRole(Role role) {
+        return repository.findAllUserByProfileContains(role.getCod());
+    }
 }

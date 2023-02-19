@@ -24,9 +24,9 @@
                 <td class="col-3 text-truncate">{{ user.name }}</td>
                 <td class="col-4 text-truncate">{{ user.email }}</td>
                 <td class="col-3">
-                <span *ngFor="let profile of  getProfiles(user?.profile || [])"
+                <span *ngFor="let role of  getProfiles(user?.profile || [])"
                       class="badge rounded-pill bg-primary me-2">
-                  {{profile}}
+                  {{role}}
                 </span>
                 </td>
                 <td class="col-1 d-flex justify-content-end align-items-center action-column">

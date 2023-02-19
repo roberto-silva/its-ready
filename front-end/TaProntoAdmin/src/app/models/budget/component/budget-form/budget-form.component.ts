@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BudgetService} from "../../budget.service";
 import {BudgetModel} from "../../budget-model";
 import {ToastrService} from "ngx-toastr";
-import {PROFILES} from "../../../../app.constants";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../../user/user.service";
 
@@ -18,26 +17,16 @@ export class BudgetFormComponent implements OnInit {
 
   formGroup: FormGroup = this.formBuilder.group({
     id: [null, []],
-    name: ['', Validators.required],
-    cpf: ['', Validators.required],
-    phone: ['', Validators.required],
-    email: ['', Validators.required],
-    address: this.formBuilder.group({
-      id: [''],
-      cep: ['', Validators.required],
-      city: ['', Validators.required],
-      district: ['', Validators.required],
-      street: ['', Validators.required],
-      referencePoint: ['', Validators.required],
-      activated: [true, Validators.required]
-    }),
-    password: ['', Validators.required],
-    profile: ['', Validators.required],
-    activated: [true, Validators.required]
+    client: ['', Validators.required],
+    collaborator: ['', Validators.required],
+    budgetDate: [],
+    approval: [],
+    budgetApprovalDate: []
   });
-  profiles: { name: string, cod: number } [] = PROFILES;
+
   viewMode: boolean = false;
   editMode: boolean = false;
+  title: string = 'Budget registration';
 
   constructor(private readonly formBuilder: FormBuilder,
               private readonly budgetService: BudgetService,
@@ -62,31 +51,33 @@ export class BudgetFormComponent implements OnInit {
       this.viewMode = value['viewMode'];
       if (this.viewMode) {
         this.formGroup.disable();
+        this.title = 'Budget view';
       }
       this.editMode = value['editMode'];
+      this.title = this.editMode ? 'Budget update' : this.title;
     });
 
-    this.setUsersListByUserType('CLIENT');
-    this.setUsersListByUserType('COLABORATOR');
+    this.setUsersListByUserType('COSTUMER');
+    this.setUsersListByUserType('ATTENDANT');
   }
 
   save() {
-    this.userService.create(new BudgetModel(this.formGroup.value)).subscribe(() => {
+    this.budgetService.create(new BudgetModel(this.formGroup.value)).subscribe(() => {
       this.router.navigate(['/users']).then();
-      this.toastrService.success("User created successfully");
+      this.toastrService.success("Budget created successfully");
     }, error => {
       this.toastrService.error(error.error.message);
     });
   }
 
-  setUsersListByUserType(type: 'CLIENT' | 'COLABORATOR') {
+  setUsersListByUserType(type: "ATTENDANT" | "COSTUMER") {
     this.userService.getAllByUserType(type).subscribe((value: any) => {
       switch (type) {
-        case 'CLIENT':
-          this.clients = value.body.content || [];
+        case 'COSTUMER':
+          this.clients = [...this.clients, ...value.body];
           break;
-        case 'COLABORATOR':
-          this.colaborators = value.body.content || [];
+        case 'ATTENDANT':
+          this.colaborators = [...this.colaborators, ...value.body];
       }
     });
   }

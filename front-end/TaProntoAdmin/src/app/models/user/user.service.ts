@@ -37,7 +37,10 @@ export class UserService extends ServiceUtil implements BaseService<UserModel> {
     return this.httpClient.delete<UserModel>(`${USER_API}/${id}`);
   }
 
-  getAllByUserType(type: "CLIENT" | "COLABORATOR"): Observable<HttpResponse<BudgetModel[]>>  {
-    return this.httpClient.get<BudgetModel[]>(`${USER_API}/${type}`, {observe: 'response'});
+  getAllByUserType(type: "ATTENDANT" | "COSTUMER"): Observable<HttpResponse<BudgetModel[]>> {
+    return this.httpClient.get<BudgetModel[]>(`${USER_API}/roles`, {
+      params: {role: type},
+      observe: 'response'
+    });
   }
 }

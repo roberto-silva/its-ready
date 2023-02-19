@@ -1,7 +1,7 @@
 package com.roberto.taPronto.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.roberto.taPronto.domain.enums.Profile;
+import com.roberto.taPronto.domain.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,7 +26,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -55,15 +55,15 @@ public class User implements Serializable {
     @Column(name = "activated")
     private boolean activated;
 
-    public Set<Profile> getProfiles() {
-        return profile.stream().map(Profile::toEnum).collect(Collectors.toSet());
+    public Set<Role> getProfiles() {
+        return profile.stream().map(Role::toEnum).collect(Collectors.toSet());
     }
 
-    public void addProfile(Profile profile) {
-        this.profile.add(profile.getCod());
+    public void addProfile(Role role) {
+        this.profile.add(role.getCod());
     }
 
-    public boolean hasHole(Profile profile) {
-        return this.profile.stream().anyMatch(integer -> Objects.equals(integer, profile.getCod()));
+    public boolean hasHole(Role role) {
+        return this.profile.stream().anyMatch(integer -> Objects.equals(integer, role.getCod()));
     }
 }

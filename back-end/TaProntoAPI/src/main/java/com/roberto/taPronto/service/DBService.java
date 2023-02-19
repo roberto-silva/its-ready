@@ -1,6 +1,6 @@
 package com.roberto.taPronto.service;
 
-import com.roberto.taPronto.domain.enums.Profile;
+import com.roberto.taPronto.domain.enums.Role;
 import com.roberto.taPronto.dto.AddressDTO;
 import com.roberto.taPronto.dto.UserDTO;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,7 @@ public class DBService {
 
     private UserDTO createUserAdmin() {
         var adminProfile = new HashSet<Integer>();
-        adminProfile.add(Profile.ADMIN.getCod());
+        adminProfile.add(Role.ADMIN.getCod());
         return UserDTO.builder()
                 .name("Admin")
                 .cpf("546.480.050-66")
