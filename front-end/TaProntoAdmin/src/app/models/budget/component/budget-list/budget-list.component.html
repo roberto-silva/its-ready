@@ -1,0 +1,55 @@
+<app-hearder-list (setSearch)="setSearch($event)" [entityURL]="'budgets'" [title]="'Budgets'">
+</app-hearder-list>
+<div class="table-responsive">
+  <div class="container px-0 py-5">
+    <div class="row">
+      <div class="col-lg-7 w-100 bg-white rounded shadow p-0">
+        <!-- Fixed header table-->
+        <div class="table-responsive">
+          <table class="table table-fixed">
+            <thead>
+            <tr>
+              <th scope="col" class="col-1">#</th>
+              <th scope="col" class="col-3">Collaborator</th>
+              <th scope="col" class="col-4">Client</th>
+              <th scope="col" class="col-3">Approval</th>
+              <th scope="col" class="col-1 d-flex justify-content-end">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngIf="!!items.length">
+              <tr *ngFor="let budget of items">
+                <td scope="row" class="col-1">{{ budget.id }}</td>
+                <td class="col-4 text-truncate">{{ budget.collaborator?.name }}</td>
+                <td class="col-4 text-truncate">{{ budget.client?.name }}</td>
+                <td class="col-4 text-truncate">{{ budget.approval }}</td>
+                <td class="col-1 d-flex justify-content-end align-items-center action-column">
+                  <ng-container [ngTemplateOutlet]="dropdown"
+                                [ngTemplateOutletContext]="{ item: budget }">
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="!items.length">
+              <h2 class="text-center lead w-100 mt-3">No users found.</h2>
+            </ng-container>
+            </tbody>
+          </table>
+        </div><!-- End -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #dropdown let-item="item">
+  <div ngbDropdown container="body">
+    <button type="button" class="btn border-0 btn-sm" ngbDropdownToggle>
+      <span class="material-symbols-outlined">more_vert</span>
+    </button>
+    <div ngbDropdownMenu>
+      <button ngbDropdownItem [routerLink]="item.id + '/view'">View</button>
+      <button ngbDropdownItem [disabled]="item.id == 1" [routerLink]="item.id + '/edit'">Edit</button>
+      <button ngbDropdownItem [disabled]="item.id == 1" (click)="openDeleteModal(item)">Delete</button>
+    </div>
+  </div>
+</ng-template>

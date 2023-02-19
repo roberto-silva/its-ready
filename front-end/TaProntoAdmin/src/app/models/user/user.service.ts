@@ -5,6 +5,7 @@ import {HttpClient, HttpResponse} from "@angular/common/http";
 import {UserModel} from "./user-model";
 import {USER_API} from "../../app.constants";
 import {ServiceUtil} from "../../core/services/service-util.service";
+import {BudgetModel} from "../budget/budget-model";
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +37,7 @@ export class UserService extends ServiceUtil implements BaseService<UserModel> {
     return this.httpClient.delete<UserModel>(`${USER_API}/${id}`);
   }
 
+  getAllByUserType(type: "CLIENT" | "COLABORATOR"): Observable<HttpResponse<BudgetModel[]>>  {
+    return this.httpClient.get<BudgetModel[]>(`${USER_API}/${type}`, {observe: 'response'});
+  }
 }

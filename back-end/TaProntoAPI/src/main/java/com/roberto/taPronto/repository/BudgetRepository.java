@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BudgetRepository extends JpaRepository<Budget, Integer> {
 
-    Page<Budget> findAllBudgetByNameContainsIgnoreCase(Pageable pageable, String search);
+    Page<Budget> findAllBudgetByCollaborator_NameContainsIgnoreCaseOrClient_NameContainsIgnoreCase(String collaboratorName,String clientName, Pageable pageable);
 }

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {LoginService} from "../../../models/login/login.service";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,7 +7,8 @@ import {LoginService} from "../../../models/login/login.service";
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

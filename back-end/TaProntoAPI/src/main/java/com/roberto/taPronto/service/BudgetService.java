@@ -27,7 +27,7 @@ public class BudgetService {
     }
 
     public Page<Budget> findAll(Pageable pageable, String search) {
-        return repository.findAllBudgetByNameContainsIgnoreCase(pageable, search);
+        return repository.findAllBudgetByCollaborator_NameContainsIgnoreCaseOrClient_NameContainsIgnoreCase(search, search, pageable);
     }
 
     public Budget create(BudgetDTO budgetDTO) {

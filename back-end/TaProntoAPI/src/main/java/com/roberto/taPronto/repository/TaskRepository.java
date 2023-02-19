@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
-    Page<Task> findAllServiceByNameContainsIgnoreCase(Pageable pageable, String search);
+    Page<Task> findAllTaskByCollaborator_NameContainsIgnoreCaseOrClient_NameContainsIgnoreCase(String collaboratorName,String clientName, Pageable pageable);
 }

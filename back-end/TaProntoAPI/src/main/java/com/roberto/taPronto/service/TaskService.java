@@ -25,7 +25,7 @@ public class TaskService {
     }
 
     public Page<Task> findAll(Pageable pageable, String search) {
-        return repository.findAllServiceByNameContainsIgnoreCase(pageable, search);
+        return repository.findAllTaskByCollaborator_NameContainsIgnoreCaseOrClient_NameContainsIgnoreCase(search, search, pageable);
     }
 
     public Task create(TaskDTO ServiceDTO) {

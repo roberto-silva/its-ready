@@ -1,12 +1,5 @@
-<header class="container d-flex justify-content-between align-items-center">
-  <div class="d-flex justify-content-start align-items-center gap-3">
-    <h1 class="title">Users</h1>
-    <button class="btn btn-primary btn-circle" (click)="goToRegistrationForm()">
-      <span class="material-symbols-outlined">add</span>
-    </button>
-  </div>
-  <app-search [title]="'Search by user name or email...'" (search)="setSearch($event)"></app-search>
-</header>
+<app-hearder-list (setSearch)="setSearch($event)" [entityURL]="'users'" [title]="'Users'">
+</app-hearder-list>
 <div class="table-responsive">
   <div class="container px-0 py-5">
     <div class="row">
@@ -17,17 +10,17 @@
           <table class="table table-fixed">
             <thead>
             <tr>
-              <th scope="col" class="col-1">#</th>
-              <th scope="col" class="col-3">Name</th>
-              <th scope="col" class="col-4">Email</th>
-              <th scope="col" class="col-3">Profile</th>
-              <th scope="col" class="col-1 d-flex justify-content-end">Actions</th>
+              <th class="col-1" scope="col">#</th>
+              <th class="col-3" scope="col">Name</th>
+              <th class="col-4" scope="col">Email</th>
+              <th class="col-3" scope="col">Profile</th>
+              <th class="col-1 d-flex justify-content-end" scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-            <ng-container *ngIf="!!users.length">
-              <tr *ngFor="let user of users">
-                <td scope="row" class="col-1">{{ user.id }}</td>
+            <ng-container *ngIf="!!items.length">
+              <tr *ngFor="let user of items">
+                <td class="col-1" scope="row">{{ user.id }}</td>
                 <td class="col-3 text-truncate">{{ user.name }}</td>
                 <td class="col-4 text-truncate">{{ user.email }}</td>
                 <td class="col-3">
@@ -37,32 +30,35 @@
                 </span>
                 </td>
                 <td class="col-1 d-flex justify-content-end align-items-center action-column">
-                  <ng-container [ngTemplateOutlet]="dropdown"
-                                [ngTemplateOutletContext]="{ user: user }">
+                  <ng-container [ngTemplateOutletContext]="{ item: user }"
+                                [ngTemplateOutlet]="dropdown">
                   </ng-container>
                 </td>
               </tr>
             </ng-container>
-            <ng-container *ngIf="!users.length">
-              <h2 class="text-center lead w-100 mt-3">No users found.</h2>
+            <ng-container *ngIf="!items.length">
+              <h2 class="text-center lead w-100 mt-3">No items found.</h2>
             </ng-container>
             </tbody>
           </table>
-        </div><!-- End -->
+        </div>
+        <!-- End -->
       </div>
     </div>
   </div>
 </div>
 
-<ng-template #dropdown let-user="user">
-  <div ngbDropdown container="body">
-    <button type="button" class="btn border-0 btn-sm" ngbDropdownToggle>
+<ng-template #dropdown let-item="item">
+  <div container="body" ngbDropdown>
+    <button class="btn border-0 btn-sm" ngbDropdownToggle type="button">
       <span class="material-symbols-outlined">more_vert</span>
     </button>
     <div ngbDropdownMenu>
-      <button ngbDropdownItem [routerLink]="user.id + '/view'">View</button>
-      <button ngbDropdownItem [disabled]="user.id == 1" [routerLink]="user.id + '/edit'">Edit</button>
-      <button ngbDropdownItem [disabled]="user.id == 1" (click)="openDeleteModal(user)">Delete</button>
+      <button [routerLink]="item.id + '/view'" ngbDropdownItem>View</button>
+      <button [disabled]="item.id == 1" [routerLink]="item.id + '/edit'" ngbDropdownItem>Edit</button>
+      <button (click)="openDeleteModal(item)" [disabled]="item.id == 1" ngbDropdownItem>Delete</button>
     </div>
   </div>
 </ng-template>
+
+
