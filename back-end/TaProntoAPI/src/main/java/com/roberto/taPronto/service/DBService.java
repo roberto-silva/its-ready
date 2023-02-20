@@ -6,8 +6,10 @@ import com.roberto.taPronto.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +33,7 @@ public class DBService {
 
     private UserDTO createUserAdmin() {
         var adminProfile = new HashSet<Integer>();
-        adminProfile.add(Role.ADMIN.getCod());
+        adminProfile.addAll(Arrays.stream(Role.values()).map(role -> role.getCod()).collect(Collectors.toSet()));
         return UserDTO.builder()
                 .name("Admin")
                 .cpf("546.480.050-66")

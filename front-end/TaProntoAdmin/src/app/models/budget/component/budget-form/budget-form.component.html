@@ -5,7 +5,7 @@
     <div class="row form-section-border py-3 mb-3">
       <label class="form-label-section mb-2">General</label>
       <div class="mb-3 row">
-        <div class="col-4">
+        <div class="col-6">
           <ng-select [items]="clients"
                      [multiple]="false"
                      [addTag]="false"
@@ -17,7 +17,7 @@
                      placeholder="Client">
           </ng-select>
         </div>
-        <div class="col-4">
+        <div class="col-6">
           <ng-select [items]="colaborators"
                      [multiple]="false"
                      [addTag]="false"
@@ -28,6 +28,14 @@
                      id="inputCollaborator"
                      placeholder="Collaborator">
           </ng-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-floating col-12">
+          <textarea type="textarea" class="form-control" id="inputDescription" formControlName="description"
+                    placeholder="Description">
+          </textarea>
+          <label for="inputDescription">Description</label>
         </div>
       </div>
     </div>

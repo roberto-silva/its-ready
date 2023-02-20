@@ -30,6 +30,9 @@ public class SimplifieldBudgetDTO {
     @Builder.Default
     private Boolean approval = false;
 
+    @NotNull(message = "Description is mandatory.")
+    private String description;
+
     public SimplifieldBudgetDTO(Budget budget) {
         this.id = budget.getId();
         this.clientId = budget.getClient().getId();

@@ -35,7 +35,7 @@ public class BudgetService {
 
     public Budget create(SimplifieldBudgetDTO budgetDTO) throws ObjectNotFoundException {
         Budget newBudget = new Budget();
-
+        BeanUtils.copyProperties(budgetDTO, newBudget, "approval");
         User client = userService.findById(budgetDTO.getClientId());
         User collaborator = userService.findById(budgetDTO.getCollaboratorId());
         newBudget.setClient(client);

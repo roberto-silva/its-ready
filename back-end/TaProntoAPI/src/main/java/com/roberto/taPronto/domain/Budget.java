@@ -32,6 +32,9 @@ public class Budget implements Serializable {
     @JoinColumn(name = "collaborator_id")
     private User collaborator;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @CreatedDate
     @Column(name = "budget_date")
     private Instant budgetDate;

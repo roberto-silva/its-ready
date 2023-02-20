@@ -22,22 +22,26 @@ h1 {
   font-weight: bolder;
 }
 
-input.form-control {
+input.form-control,
+textarea.form-control {
   background-color: var(--indigo);
   color: white;
 }
 
-input.form-control:disabled {
+input.form-control:disabled,
+textarea.form-control:disabled {
   background-color: var(--grey);
 }
 
-.form-floating>.form-control, .form-floating>.form-control-plaintext, .form-floating>.form-select {
-  height: 64px;
-}
-
-input.form-control:focus {
+input.form-control:focus,
+textarea.form-control:focus {
   background-color: var(--indigo-dark);
   color: white;
+}
+
+
+.form-floating > .form-control, .form-floating > .form-control-plaintext, .form-floating > .form-select {
+  height: 64px;
 }
 
 a {

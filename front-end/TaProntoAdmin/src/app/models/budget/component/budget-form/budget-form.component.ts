@@ -19,6 +19,7 @@ export class BudgetFormComponent implements OnInit {
     id: [null, []],
     clientId: ['', Validators.required],
     collaboratorId: ['', Validators.required],
+    description: ['', Validators.required],
     budgetDate: [],
     approval: [],
     budgetApprovalDate: []
@@ -39,11 +40,11 @@ export class BudgetFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(value => {
-      const userId = value['id'];
-      if (!!userId) {
-        this.userService.findById(userId).subscribe(result => {
-          const user = new BudgetModel(result);
-          this.formGroup.patchValue(user);
+      const budgetId = value['id'];
+      if (!!budgetId) {
+        this.budgetService.findById(budgetId).subscribe(result => {
+          const budget = new BudgetModel(result);
+          this.formGroup.patchValue(budget);
         })
       }
     });
@@ -63,7 +64,7 @@ export class BudgetFormComponent implements OnInit {
 
   save() {
     this.budgetService.create(this.formGroup.value).subscribe(() => {
-      this.router.navigate(['/users']).then();
+      this.router.navigate(['/budgets']).then();
       this.toastrService.success("Budget created successfully");
     }, error => {
       this.toastrService.error(error.error.message);
