@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class UserSpringSecurity implements UserDetails {
 
-    private Integer id;
+    private Long id;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
@@ -26,7 +26,7 @@ public class UserSpringSecurity implements UserDetails {
         this.activated = user.isActivated();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 

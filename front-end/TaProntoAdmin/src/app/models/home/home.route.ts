@@ -12,6 +12,10 @@ export const HOME_ROUTE: Route = {
     {
       path: 'users',
       loadChildren: () => import('../user/user.module').then(m => m.UserModule)
+    },
+    {
+      path: 'budgets',
+      loadChildren: () => import('../budget/budget.module').then(m => m.BudgetModule)
     }
   ]
 };

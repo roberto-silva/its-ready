@@ -1,42 +1,30 @@
-
 .ng-select.custom {
-  .ng-select-container  {
+  .ng-select-container {
     background-color: var(--indigo);
 
     min-height: 58px;
     border-radius: 8px;
   }
 }
+
 .ng-select.custom.ng-select-disabled {
-  .ng-select-container  {
+  .ng-select-container {
     background-color: var(--grey);
   }
-}
-
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
-  position: relative;
-  height: 10px;
-  margin-bottom: 20px;
-  color: var(--ligth-grey);
-}
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
-  position: relative !important;
-  width: 100%;
-}
-
-.ng-select .ng-has-value .ng-placeholder {
-  display: block;
-  position: relative;
 }
 
 .ng-select .ng-arrow-wrapper .ng-arrow {
   border-color: var(--ligth-grey) transparent transparent;
 }
 
-.ng-select.ng-select-opened>.ng-select-container .ng-arrow {
+.ng-select.ng-select-opened > .ng-select-container .ng-arrow {
   border-color: transparent transparent var(--ligth-grey);
 }
 
 .ng-select .ng-clear-wrapper {
+  color: var(--ligth-grey);
+}
+
+.ng-value-label {
   color: var(--ligth-grey);
 }

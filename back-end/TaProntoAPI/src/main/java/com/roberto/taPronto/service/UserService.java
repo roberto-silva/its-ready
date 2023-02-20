@@ -2,9 +2,10 @@ package com.roberto.taPronto.service;
 
 import com.roberto.taPronto.domain.Address;
 import com.roberto.taPronto.domain.User;
-import com.roberto.taPronto.domain.enums.Profile;
+import com.roberto.taPronto.domain.enums.Role;
 import com.roberto.taPronto.dto.UserDTO;
 import com.roberto.taPronto.repository.UserRepository;
+import com.roberto.taPronto.repository.projection.SimplifieldUserProjection;
 import com.roberto.taPronto.security.UserSpringSecurity;
 import javassist.tools.rmi.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -24,9 +26,9 @@ public class UserService {
     private UserRepository repository;
     private BCryptPasswordEncoder passwordEncoder;
 
-    public User findById(Integer id) throws ObjectNotFoundException {
+    public User findById(Long id) throws ObjectNotFoundException {
 
-        Optional<User> user = repository.findById(id);
+        Optional<User> user = repository.findById(Long.valueOf(id));
         return user.orElseThrow(() -> new ObjectNotFoundException("User not found!"));
     }
 
@@ -43,11 +45,11 @@ public class UserService {
         BeanUtils.copyProperties(userDTO, newUser);
         newUser.setAddress(new Address(userDTO.getAddress()));
         newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        newUser.addProfile(Profile.COSTUMER);
+        newUser.addProfile(Role.COSTUMER);
         return repository.save(newUser);
     }
 
-    public User update(UserDTO userDTO, Integer id) throws ObjectNotFoundException {
+    public User update(UserDTO userDTO, Long id) throws ObjectNotFoundException {
 
         User currentUser = this.findById(id);
         BeanUtils.copyProperties(userDTO, currentUser);
@@ -55,7 +57,7 @@ public class UserService {
         return this.repository.save(currentUser);
     }
 
-    public void delete(Integer id) throws ObjectNotFoundException {
+    public void delete(Long id) throws ObjectNotFoundException {
 
         this.repository.delete(this.findById(id));
     }
@@ -66,7 +68,9 @@ public class UserService {
         } catch (Exception e) {
             return null;
         }
-
     }
 
+    public Set<SimplifieldUserProjection> findAllUsersByRole(Role role) {
+        return repository.findAllUserByProfileContains(role.getCod());
+    }
 }
