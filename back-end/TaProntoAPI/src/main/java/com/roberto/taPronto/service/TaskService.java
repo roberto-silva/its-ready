@@ -1,5 +1,6 @@
 package com.roberto.taPronto.service;
 
+import com.roberto.taPronto.domain.Budget;
 import com.roberto.taPronto.domain.Task;
 import com.roberto.taPronto.dto.TaskDTO;
 import com.roberto.taPronto.repository.TaskRepository;
@@ -25,12 +26,13 @@ public class TaskService {
     }
 
     public Page<Task> findAll(Pageable pageable, String search) {
-        return repository.findAllTaskByCollaborator_NameContainsIgnoreCaseOrClient_NameContainsIgnoreCase(search, search, pageable);
+        return repository.findAllTaskByCollaborator_NameContainsIgnoreCaseOrBudget_Client_NameContainsIgnoreCase(search, search, pageable);
     }
 
-    public Task create(TaskDTO ServiceDTO) {
+    public Task create(Budget budget) {
         Task newTask = new Task();
-        BeanUtils.copyProperties(ServiceDTO, newTask);
+        newTask.setBudget(budget);
+
         return repository.save(newTask);
     }
 

@@ -31,11 +31,14 @@ public class BudgetDTO {
     @Builder.Default
     private Boolean approval = false;
 
+    private Double amount;
+
     public BudgetDTO(Budget budget) {
         this.id = budget.getId();
         this.client = budget.getClient();
         this.collaborator = budget.getCollaborator();
         this.budgetDate = budget.getBudgetDate();
         this.approval = budget.getApproval();
+        this.amount = budget.getAmount();
     }
 }

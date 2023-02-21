@@ -36,14 +36,6 @@ public class TaskController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Void> insert(@RequestBody @Valid TaskDTO objDto) {
-        Task obj = service.create(objDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
-
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<TaskDTO> update(@RequestBody @Valid TaskDTO objDto, @PathVariable Integer id) throws ObjectNotFoundException {

@@ -33,6 +33,9 @@ public class SimplifieldBudgetDTO {
     @NotNull(message = "Description is mandatory.")
     private String description;
 
+    @NotNull(message = "Amount is mandatory.")
+    private Double amount;
+
     public SimplifieldBudgetDTO(Budget budget) {
         this.id = budget.getId();
         this.clientId = budget.getClient().getId();

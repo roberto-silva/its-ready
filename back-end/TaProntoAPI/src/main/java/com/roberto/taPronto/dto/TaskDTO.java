@@ -17,8 +17,6 @@ public class TaskDTO {
 
     private Integer id;
 
-    private UserDTO client;
-
     private UserDTO collaborator;
 
     private Instant initialServiceDate;
@@ -30,7 +28,6 @@ public class TaskDTO {
 
     public TaskDTO(Task task) {
         this.id = task.getId();
-        this.client = new UserDTO(task.getClient());
         this.collaborator = new UserDTO(task.getCollaborator());
         this.initialServiceDate = task.getInitialServiceDate();
         this.budget = new BudgetDTO(task.getBudget());

@@ -43,15 +43,18 @@ public class BudgetService {
         return repository.save(newBudget);
     }
 
-    public Budget update(BudgetDTO budgetDTO, Integer id) throws ObjectNotFoundException {
+    public Budget update(SimplifieldBudgetDTO budgetDTO, Integer id) throws ObjectNotFoundException {
         Budget currentBudget = this.findById(id);
         BeanUtils.copyProperties(budgetDTO, currentBudget, "approval");
+        User client = userService.findById(budgetDTO.getClientId());
+        User collaborator = userService.findById(budgetDTO.getCollaboratorId());
+        currentBudget.setClient(client);
+        currentBudget.setCollaborator(collaborator);
         currentBudget.setApproval(budgetDTO.getApproval());
         currentBudget = this.repository.save(currentBudget);
 
         if (currentBudget.getApproval()) {
-            var task = TaskDTO.builder().budget(new BudgetDTO(currentBudget)).build();
-            taskService.create(task);
+            taskService.create(currentBudget);
         }
 
         return currentBudget;

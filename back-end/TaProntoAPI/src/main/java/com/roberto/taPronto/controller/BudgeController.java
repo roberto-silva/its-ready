@@ -47,7 +47,7 @@ public class BudgeController {
 
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<BudgetDTO> update(@RequestBody @Valid BudgetDTO objDto, @PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<BudgetDTO> update(@RequestBody @Valid SimplifieldBudgetDTO objDto, @PathVariable Integer id) throws ObjectNotFoundException {
         var budget = this.service.update(objDto, id);
         return ResponseEntity.ok().body(new BudgetDTO(budget));
     }

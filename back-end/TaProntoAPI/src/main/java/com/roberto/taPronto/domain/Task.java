@@ -24,9 +24,9 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
-    private User client;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "budget", referencedColumnName = "id")
+    private Budget budget;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collaborator_id")
@@ -34,10 +34,6 @@ public class Task implements Serializable {
 
     @Column(name = "initial_service_date")
     private Instant initialServiceDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "budget", referencedColumnName = "id")
-    private Budget budget;
 
     @Column(name = "status")
     private Integer status = Status.NOT_STARTED.getCod();

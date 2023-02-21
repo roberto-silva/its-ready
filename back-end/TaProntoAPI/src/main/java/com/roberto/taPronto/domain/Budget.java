@@ -1,5 +1,6 @@
 package com.roberto.taPronto.domain;
 
+import com.roberto.taPronto.dto.BudgetDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -45,6 +47,9 @@ public class Budget implements Serializable {
 
     @Column(name = "budget_approval_date")
     private Instant budgetApprovalDate;
+
+    @Column(name = "amount")
+    private Double amount;
 
     public void setApproval(Boolean approval) {
         this.approval = approval;

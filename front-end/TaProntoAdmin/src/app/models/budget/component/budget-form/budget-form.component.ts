@@ -22,7 +22,8 @@ export class BudgetFormComponent implements OnInit {
     description: ['', Validators.required],
     budgetDate: [],
     approval: [],
-    budgetApprovalDate: []
+    budgetApprovalDate: [],
+    amount: [0, Validators.required]
   });
 
   viewMode: boolean = false;
@@ -63,9 +64,18 @@ export class BudgetFormComponent implements OnInit {
   }
 
   save() {
-    this.budgetService.create(this.formGroup.value).subscribe(() => {
-      this.router.navigate(['/budgets']).then();
-      this.toastrService.success("Budget created successfully");
+    const updateAction = this.formGroup.get('id')?.value;
+
+    const action =  updateAction ?
+      this.budgetService.update(this.formGroup.value) :
+      this.budgetService.create(this.formGroup.value);
+
+    action.subscribe(() => {
+      this.router.navigate(['/budgets']).then(() => {
+        const action = updateAction ? 'updated' : 'created';
+        this.toastrService.success(`Budget ${action} successfully`);
+      });
+
     }, error => {
       this.toastrService.error(error.error.message);
     });
@@ -81,5 +91,10 @@ export class BudgetFormComponent implements OnInit {
           this.colaborators = [...this.colaborators, ...value.body];
       }
     });
+  }
+
+  approveBudget() {
+    this.formGroup.get('approval')?.setValue(true);
+    this.save();
   }
 }

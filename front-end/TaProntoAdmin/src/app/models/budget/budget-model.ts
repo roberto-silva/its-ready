@@ -9,6 +9,7 @@ export class BudgetModel {
   description?: string;
   budgetDate?: Date;
   approval?: boolean;
+  amount?: boolean;
   budgetApprovalDate?: Date;
 
   constructor(obj: any) {
@@ -20,6 +21,7 @@ export class BudgetModel {
     this.description = obj.description ? obj.description : null;
     this.budgetDate = obj.budgetDate ? obj.budgetDate : null;
     this.approval = obj.approval ? obj.approval : false;
+    this.amount = obj.amount ? obj.amount : false;
     this.budgetApprovalDate = obj.budgetApprovalDate ? obj.budgetApprovalDate : null;
   }
 }

@@ -5,7 +5,7 @@
     <div class="row form-section-border py-3 mb-3">
       <label class="form-label-section mb-2">General</label>
       <div class="mb-3 row">
-        <div class="col-6">
+        <div class="col-4">
           <ng-select [items]="clients"
                      [multiple]="false"
                      [addTag]="false"
@@ -17,7 +17,7 @@
                      placeholder="Client">
           </ng-select>
         </div>
-        <div class="col-6">
+        <div class="col-4">
           <ng-select [items]="colaborators"
                      [multiple]="false"
                      [addTag]="false"
@@ -28,6 +28,10 @@
                      id="inputCollaborator"
                      placeholder="Collaborator">
           </ng-select>
+        </div>
+        <div class="form-floating col-4">
+          <input type="number" class="form-control" id="inputAmount" formControlName="amount" placeholder="Amount">
+          <label for="inputAmount">Amount</label>
         </div>
       </div>
       <div class="row">
@@ -40,7 +44,9 @@
       </div>
     </div>
     <div *ngIf="!viewMode" class="d-flex justify-content-end w-100 mt-3">
-      <button [disabled]="formGroup.invalid" class="btn btn-primary btn-lg" type="submit">Save</button>
+      <button *ngIf="editMode" [disabled]="formGroup.invalid" class="btn btn-primary btn-lg bg-success" type="button"
+      (click)="approveBudget()">Approve</button>
+      <button [disabled]="formGroup.invalid" class="btn btn-primary btn-lg ms-2" type="submit">Save</button>
     </div>
   </form>
 
