@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @AllArgsConstructor
-public enum Profile {
+public enum Status {
 
-    ADMIN(0, "ROLE_ADMIN"),
-    ATTENDANT(1, "ROLE_ATTENDANT"),
-    COSTUMER(2, "ROLE_COSTUMER");
+    NOT_STARTED(0, "Not started"),
+    STARTED(1, "Started"),
+    FINISHED(2, "Finished");
 
     private final Integer cod;
     private final String name;
@@ -23,9 +23,9 @@ public enum Profile {
         return this.name;
     }
 
-    public static Profile toEnum(Integer cod) {
-        return Arrays.stream(Profile.values()).filter(profile -> Objects.equals(profile.getCod(), cod))
+    public static Status toEnum(Integer cod) {
+        return Arrays.stream(Status.values()).filter(profile -> Objects.equals(profile.getCod(), cod))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Profile not found."));
+                .orElseThrow(() -> new IllegalArgumentException("Status not found."));
     }
 }

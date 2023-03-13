@@ -1,9 +1,8 @@
 package com.roberto.taPronto.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.roberto.taPronto.domain.enums.Profile;
+import com.roberto.taPronto.domain.enums.Role;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,13 +19,14 @@ import java.util.stream.Collectors;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode()
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -55,28 +55,15 @@ public class User implements Serializable {
     @Column(name = "activated")
     private boolean activated;
 
-    public Set<Profile> getProfiles() {
-        return profile.stream().map(Profile::toEnum).collect(Collectors.toSet());
+    public Set<Role> getProfiles() {
+        return profile.stream().map(Role::toEnum).collect(Collectors.toSet());
     }
 
-    public void addProfile(Profile profile) {
-        this.profile.add(profile.getCod());
+    public void addProfile(Role role) {
+        this.profile.add(role.getCod());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    public boolean hasHole(Profile profile){
-        return this.profile.stream().anyMatch(integer -> Objects.equals(integer, profile.getCod()));
+    public boolean hasHole(Role role) {
+        return this.profile.stream().anyMatch(integer -> Objects.equals(integer, role.getCod()));
     }
 }
