@@ -16,6 +16,10 @@ export const HOME_ROUTE: Route = {
     {
       path: 'budgets',
       loadChildren: () => import('../budget/budget.module').then(m => m.BudgetModule)
+    },
+    {
+      path: 'tasks',
+      loadChildren: () => import('../task/task.module').then(m => m.TaskModule)
     }
   ]
 };

@@ -17,7 +17,7 @@ import java.net.URI;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/api/v1/task")
+@RequestMapping(value = "/api/v1/tasks")
 public class TaskController {
 
     private TaskService service;

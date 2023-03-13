@@ -40,6 +40,7 @@ export class BaseListComponent<T> {
   protected loadAll() {
     this.entityService.getAll(this.getParams()).subscribe((value: any) => {
       this.items = value.body.content || [];
+      this.completedLoadAll();
     });
   }
 
@@ -54,4 +55,7 @@ export class BaseListComponent<T> {
   }
 
 
+  completedLoadAll() {
+
+  }
 }

@@ -1,0 +1,54 @@
+<section class="form-section">
+  <h1 class="title">{{title}}</h1>
+
+  <form (ngSubmit)="save()" [formGroup]="formGroup">
+    <div class="row form-section-border py-3 mb-3">
+      <label class="form-label-section mb-2">General</label>
+      <div class="mb-3 row">
+        <div class="col-4">
+          <ng-select [items]="clients"
+                     [multiple]="false"
+                     [addTag]="false"
+                     bindLabel="name"
+                     bindValue="id"
+                     [formControlName]="'clientId'"
+                     class="custom"
+                     id="inputClient"
+                     placeholder="Client">
+          </ng-select>
+        </div>
+        <div class="col-4">
+          <ng-select [items]="colaborators"
+                     [multiple]="false"
+                     [addTag]="false"
+                     bindLabel="name"
+                     bindValue="id"
+                     [formControlName]="'collaboratorId'"
+                     class="custom"
+                     id="inputCollaborator"
+                     placeholder="Collaborator">
+          </ng-select>
+        </div>
+        <div class="form-floating col-4">
+          <input type="number" class="form-control" id="inputAmount" formControlName="amount" placeholder="Amount">
+          <label for="inputAmount">Amount</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-floating col-12">
+          <textarea type="textarea" class="form-control" id="inputDescription" formControlName="description"
+                    placeholder="Description">
+          </textarea>
+          <label for="inputDescription">Description</label>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!viewMode" class="d-flex justify-content-end w-100 mt-3">
+      <button *ngIf="editMode" [disabled]="formGroup.invalid" class="btn btn-primary btn-lg bg-success" type="button"
+      (click)="approveBudget()">Approve</button>
+      <button [disabled]="formGroup.invalid" class="btn btn-primary btn-lg ms-2" type="submit">Save</button>
+    </div>
+  </form>
+
+
+</section>

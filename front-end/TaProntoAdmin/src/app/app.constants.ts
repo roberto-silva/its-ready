@@ -6,6 +6,7 @@ export const FIRST_VERSION_API = '/api/v1/';
 export const AUTH_API = BASE_API + FIRST_VERSION_API + 'auth';
 export const USER_API = BASE_API + FIRST_VERSION_API + 'users';
 export const BUDGET_API = BASE_API + FIRST_VERSION_API + 'budgets';
+export const TASK_API = BASE_API + FIRST_VERSION_API + 'tasks';
 export const PROFILES = [
   {key: "ROLE_ADMIN", name: "Admin", cod: 0},
   {key: "ROLE_ATTENDANT", name: "Attendant", cod: 1},

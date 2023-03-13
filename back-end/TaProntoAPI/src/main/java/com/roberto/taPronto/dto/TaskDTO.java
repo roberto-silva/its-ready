@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -28,9 +29,16 @@ public class TaskDTO {
 
     public TaskDTO(Task task) {
         this.id = task.getId();
-        this.collaborator = new UserDTO(task.getCollaborator());
-        this.initialServiceDate = task.getInitialServiceDate();
         this.budget = new BudgetDTO(task.getBudget());
         this.status = task.getStatus().getCod();
+
+        if(Objects.nonNull(task.getCollaborator())){
+            this.collaborator = new UserDTO(task.getCollaborator());
+        }
+
+        if(Objects.nonNull(task.getInitialServiceDate())){
+            this.initialServiceDate = task.getInitialServiceDate();
+        }
+
     }
 }

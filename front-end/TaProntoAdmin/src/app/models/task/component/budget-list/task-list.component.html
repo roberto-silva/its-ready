@@ -1,4 +1,4 @@
-<app-hearder-list (setSearch)="setSearch($event)" [entityURL]="'budgets'" [title]="'Budgets'">
+<app-hearder-list (setSearch)="setSearch($event)" [entityURL]="'tasks'" [title]="'Tasks'">
 </app-hearder-list>
 <div class="table-responsive">
   <div class="container px-0 py-5">
@@ -12,30 +12,30 @@
               <th class="col-1" scope="col">#</th>
               <th class="col-4" scope="col">Collaborator</th>
               <th class="col-4" scope="col">Client</th>
-              <th class="col-2" scope="col">Approval</th>
+              <th class="col-2" scope="col">Status</th>
               <th class="col-1 d-flex justify-content-end" scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
             <ng-container *ngIf="!!items.length">
-              <tr *ngFor="let budget of items">
-                <td class="col-1" scope="row">{{ budget.id }}</td>
-                <td class="col-4 text-truncate">{{ budget.collaborator?.name }}</td>
-                <td class="col-4 text-truncate">{{ budget.client?.name }}</td>
+              <tr *ngFor="let task of items">
+                <td class="col-1" scope="row">{{ task.id }}</td>
+                <td class="col-4 text-truncate">{{ task.collaborator?.name || 'Not assigned' }}</td>
+                <td class="col-4 text-truncate">{{ task.budget?.client?.name }}</td>
                 <td class="col-2">
-                  <div class="badge rounded-pill bg-success" [ngClass]="{'bg-danger':  !budget.approval}">
-                    {{ budget.approval ? 'Approved' : 'Not approved' }}
+                  <div class="badge rounded-pill" [ngClass]="task.taskStatusModel.color">
+                    {{ task.taskStatusModel.label }}
                   </div>
                 </td>
                 <td class="col-1 d-flex justify-content-end align-items-center action-column">
-                  <ng-container [ngTemplateOutletContext]="{ item: budget }"
+                  <ng-container [ngTemplateOutletContext]="{ item: task }"
                                 [ngTemplateOutlet]="dropdown">
                   </ng-container>
                 </td>
               </tr>
             </ng-container>
             <ng-container *ngIf="!items.length">
-              <h2 class="text-center lead w-100 mt-3">No budgets found.</h2>
+              <h2 class="text-center lead w-100 mt-3">No tasks found.</h2>
             </ng-container>
             </tbody>
           </table>
