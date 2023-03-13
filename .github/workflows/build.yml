@@ -1,9 +1,12 @@
-name: CI/CD Pipeline
+name: CI
 on:
-workflow_dispatch:
-push:
-branches:
-  - master
+  pull_request:
+    branches:    
+      - main
+      - 'releases/**'
+  push:
+    branches:
+      - ci-cd
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,4 +17,5 @@ jobs:
         with:
           java-version: 11
       - name: Build and test
+        working-directory: ./back-end/TaProntoAPI
         run: mvn clean install
