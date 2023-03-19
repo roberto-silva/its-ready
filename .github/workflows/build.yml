@@ -52,7 +52,6 @@ jobs:
         working-directory: ./back-end/TaProntoAPI
         run: mvn -B package -DskipTests --file pom.xml
       - name: Upload JAR
-        working-directory: ./back-end/TaProntoAPI
         uses: actions/upload-artifact@v2
         with:
           name: artifact
