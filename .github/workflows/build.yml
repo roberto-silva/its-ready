@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: artifact
-          path: target/TaProntoAPI-0.0.1-SNAPSHOT.jar
+          path: ./back-end/TaProntoAPI/target/TaProntoAPI-0.0.1-SNAPSHOT.jar
 
 
 
