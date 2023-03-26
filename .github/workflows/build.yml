@@ -64,8 +64,8 @@ jobs:
             rm -rf /home/ubuntu/its-ready
             git clone https://github.com/roberto-silva/its-ready.git
             cd its-ready
-            git checkout master
-            git pull origin master
+            git checkout ci-cd
+            git pull origin ci-cd
             sudo chmod +x ./deploy.sh
             ./deploy.sh
           '
