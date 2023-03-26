@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/taProntoDB?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: postgres
-    password: root
+    password: taProntoDBDeploy
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
