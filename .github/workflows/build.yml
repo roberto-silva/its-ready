@@ -61,9 +61,9 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
-            rm -rf /home/ubuntu/<your-repo-name>
-            git clone <your-repo-link>.git
-            cd <your-repo>
+            rm -rf /home/ubuntu/its-ready
+            git clone https://github.com/roberto-silva/its-ready.git
+            cd its-ready
             git checkout master
             git pull origin master
             sudo chmod +x ./deploy.sh
