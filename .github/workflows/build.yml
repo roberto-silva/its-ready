@@ -31,32 +31,8 @@ jobs:
       - name: Run Tests
         working-directory: ./back-end/TaProntoAPI
         run: mvn -B test
-  build:
-    #Depends on sonar's job
-    needs: tests
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build with Maven
-        working-directory: ./back-end/TaProntoAPI
-        run: mvn -B package -DskipTests --file pom.xml
-      - name: Upload JAR
-        uses: actions/upload-artifact@v2
-        with:
-          name: artifact
-          path: ./back-end/TaProntoAPI/target/TaProntoAPI-0.0.1-SNAPSHOT.jar
   deploy:
+    needs: tests
     runs-on: ubuntu-latest
     steps:
       - name: Get Github action IP
