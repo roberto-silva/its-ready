@@ -1,21 +1,33 @@
 name: CI/CD Pipeline
 on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - development
+      - ci-cd
   pull_request:
     branches:
       - master
-      - 'releases/**'
-  push:
-    branches:
+      - development
       - ci-cd
+      - 'releases/**'
 jobs:
-  build:
+  tests:
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - uses: actions/checkout@v1
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11
-      - name: Build and test
+          java-version: '11'
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Run Tests
         working-directory: ./back-end/TaProntoAPI
-        run: mvn clean install
+        run: mvn -B test
