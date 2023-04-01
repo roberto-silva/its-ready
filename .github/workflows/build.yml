@@ -31,18 +31,6 @@ jobs:
       - name: Run Tests
         working-directory: ./back-end/TaProntoAPI
         run: mvn -B test
-  build:
-    name: Unit tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Generate a build artifact
-        working-directory: ./back-end/TaProntoAPI
-        run: mvn install -DskipTests
   deploy:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
