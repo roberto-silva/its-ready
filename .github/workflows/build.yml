@@ -1,6 +1,6 @@
 name: CI/CD Pipeline
-on:
-  workflow_dispatch:
+'on':
+  workflow_dispatch: null
   push:
     branches:
       - main
@@ -11,7 +11,7 @@ on:
       - master
       - development
       - ci-cd
-      - 'releases/**'
+      - releases/**
 jobs:
   tests:
     name: Unit tests
@@ -26,47 +26,54 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: '${{ runner.os }}-m2-${{ hashFiles(''**/pom.xml'') }}'
+          restore-keys: '${{ runner.os }}-m2'
       - name: Run Tests
         working-directory: ./back-end/TaProntoAPI
         run: mvn -B test
+  build:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Generate a build artifact
+        working-directory: ./back-end/TaProntoAPI
+        run: mvn install -DskipTests
   deploy:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+        aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
         aws-region: us-east-1
-
     - name: Login to AWS ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-
     - name: Build and push to ECR
       id: build-image
       env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: itsreadyrepository
-          IMAGE_TAG: develop
+        ECR_REGISTRY: '${{ steps.login-ecr.outputs.registry }}'
+        ECR_REPOSITORY: itsreadyrepository
+        IMAGE_TAG: develop
       run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-        # Push the new image ID in the Amazon ECS task definition
-
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
     - name: Push the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
         container-name: enigma-container
-        image: ${{ steps.build-image.outputs.image }}
-
+        image: '${{ steps.build-image.outputs.image }}'
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        task-definition: '${{ steps.task-def.outputs.task-definition }}'
         service: itsReadyBackendService
         cluster: itsReadyCluster
         wait-for-service-stability: true
