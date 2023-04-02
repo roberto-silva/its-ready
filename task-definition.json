@@ -58,13 +58,13 @@
     }
   ],
   "placementConstraints": [],
-  "memory": "5120",
+  "memory": null,
   "taskRoleArn": "arn:aws:iam::265610989104:role/AWSECSTaskExecutionRole",
   "compatibilities": [
     "EXTERNAL",
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:265610989104:task-definition/itsReadyTask:10",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:265610989104:task-definition/itsReadyTask:12",
   "family": "itsReadyTask",
   "requiresAttributes": [
     {
@@ -116,8 +116,8 @@
   ],
   "networkMode": "bridge",
   "runtimePlatform": null,
-  "cpu": "1024",
-  "revision": 10,
+  "cpu": null,
+  "revision": 12,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
