@@ -17,7 +17,7 @@
       "entryPoint": [],
       "portMappings": [
         {
-          "hostPort": 0,
+          "hostPort": 80,
           "protocol": "tcp",
           "containerPort": 8080
         }
@@ -64,7 +64,7 @@
     "EXTERNAL",
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:265610989104:task-definition/itsReadyTask:1",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:265610989104:task-definition/itsReadyTask:3",
   "family": "itsReadyTask",
   "requiresAttributes": [
     {
@@ -117,7 +117,7 @@
   "networkMode": "bridge",
   "runtimePlatform": null,
   "cpu": null,
-  "revision": 1,
+  "revision": 3,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
