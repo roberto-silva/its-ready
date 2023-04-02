@@ -2,7 +2,7 @@ server:
   port: 5000
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/taProntoDB?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    url: jdbc:postgresql://taprontodb.ctskp4ncwsbu.us-east-1.rds.amazonaws.com:5432/taProntoDB?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: postgres
     password: taProntoDBDeploy
     driver-class-name: org.postgresql.Driver
