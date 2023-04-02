@@ -51,7 +51,8 @@ jobs:
           ECR_REPOSITORY: itsreadyrepository
           IMAGE_TAG: develop
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          cd its-ready
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       - name: Push the new image ID in the Amazon ECS task definition
